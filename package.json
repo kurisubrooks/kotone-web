@@ -1,0 +1,39 @@
+{
+  "name": "kotone-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "jellyfin-api": "github:alicegay/jellyfin-api#ee77057",
+    "react": "^19.0.0-rc.1",
+    "react-dom": "^19.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "babel-plugin-react-compiler": "^19.0.0-beta-a7bf2bd-20241110",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-a7bf2bd-20241110",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.11.0",
+    "vite": "^6.0.0-beta.10"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
+  }
+}
