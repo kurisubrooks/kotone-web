@@ -1,1 +1,22 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Nunito', 'M PLUS Rounded 1c', sans-serif;
+}
+
+.bg-primary {
+  @apply bg-linear-160 from-purple-200 to-pink-200;
+  @variant dark {
+    @apply bg-linear-160 from-purple-400 to-pink-400;
+  }
+}
+
+.text-primary {
+  @apply text-zinc-900;
+  @variant dark {
+    @apply text-zinc-100;
+  }
+}
