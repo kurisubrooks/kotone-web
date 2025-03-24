@@ -3,16 +3,21 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 
 import './index.css'
 import Layout from './screens/Layout'
+import Splash from './screens/Splash'
 import Home from './screens/Home'
+import Server from './screens/Server'
+import Signin from './screens/Signin'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Routes>
-      {/* <Route path="signin" element={<Signin />} />
-      <Route path="signout" element={<Signout />} /> */}
-
       <Route element={<Layout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Splash />} />
+        <Route path="home" element={<Home />} />
+        <Route path="server" element={<Server />} />
+        <Route path="signin/:server?" element={<Signin />} />
+        {/* <Route path="signout" element={<Signout />} /> */}
+
         {/* <Route path="albums" element={<AlbumList />} />
         <Route path="album/:album" element={<Album />} />
         <Route path="playlists" element={<AlbumList />} />

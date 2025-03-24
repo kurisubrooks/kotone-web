@@ -7,11 +7,21 @@
   --font-sans: 'Nunito', 'M PLUS Rounded 1c', sans-serif;
 }
 
+.round {
+  @apply rounded-2xl;
+}
+
 .bg-primary {
   @apply bg-linear-160 from-purple-200 to-pink-200;
   @variant dark {
     @apply bg-linear-160 from-purple-400 to-pink-400;
   }
+}
+.bg-w {
+  @apply bg-zinc-100;
+}
+.bg-b {
+  @apply bg-zinc-900;
 }
 
 .text-primary {
@@ -19,4 +29,10 @@
   @variant dark {
     @apply text-zinc-100;
   }
+}
+.text-w {
+  @apply text-zinc-100;
+}
+.text-b {
+  @apply text-zinc-900;
 }
