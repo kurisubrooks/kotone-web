@@ -1,7 +1,8 @@
+import { useEffect } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import useSettings from '../hooks/useSettings'
 import { cn } from '../lib/cn'
-import { useEffect } from 'react'
+import { UAParser } from 'ua-parser-js'
 import useClient from '../hooks/useClient'
 
 const Layout = () => {
@@ -9,6 +10,7 @@ const Layout = () => {
   const client = useClient()
   const navigate = useNavigate()
   const { server: serverParam } = useParams()
+  const { browser } = UAParser(window.navigator.userAgent)
 
   useEffect(() => {
     if (client.hasHydrated) {
@@ -20,7 +22,7 @@ const Layout = () => {
         client.user &&
         client.token
       ) {
-        // resetClient()
+        resetClient()
       } else {
         if (import.meta.env.SERVER) {
           navigate('/signin')
@@ -30,6 +32,23 @@ const Layout = () => {
       }
     }
   }, [client.hasHydrated, client.client])
+
+  const resetClient = async () => {
+    const clientName = 'Kotone'
+    const deviceName = browser.name ?? 'Unknown'
+    const deviceID = 'kotone-web_'
+    const clientVer = '1.0.0'
+    client.setClient({
+      server: client.server!,
+      clientName: clientName,
+      deviceName: deviceName,
+      deviceID: deviceID,
+      version: clientVer,
+      user: client.user!,
+      token: client.token!,
+    })
+    console.log('CLIENT RESET')
+  }
 
   return (
     <div

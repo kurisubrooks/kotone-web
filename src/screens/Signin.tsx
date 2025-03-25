@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { AxiosError } from 'axios'
 import { UAParser } from 'ua-parser-js'
+import { motion } from 'motion/react'
 import useClient from '../hooks/useClient'
 import { users } from 'jellyfin-api'
 
@@ -110,9 +111,14 @@ const Signin = () => {
           className="bg-w text-b round w-md px-4 py-1.5"
         />
         {error && (
-          <div className="text-w round w-full bg-red-700 px-4 py-1.5 font-medium">
+          <motion.div
+            className="text-w round w-full bg-red-700 px-4 py-1.5 font-medium"
+            initial={{ y: 8, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -8, opacity: 0 }}
+          >
             {error}
-          </div>
+          </motion.div>
         )}
         <div className="flex w-full flex-row-reverse">
           <input
