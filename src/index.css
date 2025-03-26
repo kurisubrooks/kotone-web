@@ -35,6 +35,12 @@
     @apply text-zinc-100;
   }
 }
+.text-secondary {
+  @apply text-zinc-900/80;
+  @variant dark {
+    @apply text-zinc-100/80;
+  }
+}
 .text-w {
   @apply text-zinc-100;
 }

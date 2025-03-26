@@ -14,7 +14,7 @@ const Server = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (import.meta.env.SERVER) {
+    if (import.meta.env.VITE_SERVER) {
       navigate('/signin')
     }
   }, [])

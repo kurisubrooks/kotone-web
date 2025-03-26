@@ -24,7 +24,7 @@ const LayoutExt = () => {
       ) {
         resetClient()
       } else {
-        if (import.meta.env.SERVER) {
+        if (import.meta.env.VITE_SERVER) {
           navigate('/signin')
         } else if (!serverParam) {
           navigate('/server')
@@ -53,7 +53,7 @@ const LayoutExt = () => {
   return (
     <div
       className={cn(
-        'bg-primary text-primary h-screen',
+        'bg-primary text-primary flex h-screen',
         settings.dark && 'dark',
       )}
     >

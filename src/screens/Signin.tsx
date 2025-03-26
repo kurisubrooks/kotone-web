@@ -19,7 +19,7 @@ const Signin = () => {
   const { browser } = UAParser(window.navigator.userAgent)
 
   const server =
-    (import.meta.env.SERVER ?? client.server ?? serverParam)
+    (import.meta.env.VITE_SERVER ?? client.server ?? serverParam)
       ? decodeURIComponent(serverParam!)
       : null
 
@@ -126,7 +126,7 @@ const Signin = () => {
             className="bg-w text-b round px-4 py-1.5 font-medium"
             value="Sign in"
           />
-          {!import.meta.env.SERVER && (
+          {!import.meta.env.VITE_SERVER && (
             <input
               type="button"
               className="bg-w text-b round px-4 py-1.5 font-medium"
