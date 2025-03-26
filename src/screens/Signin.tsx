@@ -33,7 +33,7 @@ const Signin = () => {
     setIsLoading(true)
     setError(null)
 
-    const clientName = 'Kotone'
+    const clientName = 'Kotone Web'
     const deviceName = browser.name ?? 'Unknown'
     const deviceID = 'kotone-web_'
     const clientVer = '1.0.0'
@@ -120,12 +120,22 @@ const Signin = () => {
             {error}
           </motion.div>
         )}
-        <div className="flex w-full flex-row-reverse">
+        <div className="flex w-full flex-row-reverse gap-2">
           <input
             type="submit"
             className="bg-w text-b round px-4 py-1.5 font-medium"
             value="Sign in"
           />
+          {!import.meta.env.SERVER && (
+            <input
+              type="button"
+              className="bg-w text-b round px-4 py-1.5 font-medium"
+              value="Back"
+              onClick={() => {
+                navigate('/server')
+              }}
+            />
+          )}
         </div>
       </form>
     </div>

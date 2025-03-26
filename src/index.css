@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import 'material-symbols/rounded.css';
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: 'Nunito', 'M PLUS Rounded 1c', sans-serif;
+}
+
+.material-symbols-filled {
+  font-variation-settings: 'FILL' 1;
 }
 
 .round {
