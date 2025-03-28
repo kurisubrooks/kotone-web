@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 import useSettings from '../hooks/useSettings'
 import { cn } from '../lib/cn'
 import { UAParser } from 'ua-parser-js'
@@ -9,13 +9,19 @@ const LayoutExt = () => {
   const settings = useSettings()
   const client = useClient()
   const navigate = useNavigate()
+  const location = useLocation()
   const { server: serverParam } = useParams()
   const { browser } = UAParser(window.navigator.userAgent)
 
   useEffect(() => {
     if (client.hasHydrated) {
       if (client.client) {
-        navigate('/home')
+        if (
+          location.pathname === '/' ||
+          location.pathname === '/server' ||
+          location.pathname.startsWith('/signin')
+        )
+          navigate('/home')
       } else if (
         !client.client &&
         client.server &&
