@@ -25,6 +25,8 @@
     "react-dom": "19.0.0",
     "react-hook-form": "7.54.2",
     "react-router": "7.4.0",
+    "react-virtualized-auto-sizer": "1.0.25",
+    "react-window": "1.8.11",
     "tailwind-merge": "3.0.2",
     "ua-parser-js": "2.0.3",
     "zustand": "5.0.3"
@@ -34,6 +36,7 @@
     "@tanstack/eslint-plugin-query": "5.68.0",
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
+    "@types/react-window": "1.8.8",
     "@vitejs/plugin-react": "4.3.4",
     "babel-plugin-react-compiler": "19.0.0-beta-3229e95-20250315",
     "eslint": "9.23.0",

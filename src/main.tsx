@@ -29,9 +29,9 @@ createRoot(document.getElementById('root')!).render(
             <Route path="home" element={<Home />} />
             {/* <Route path="albums" element={<AlbumList />} /> */}
             <Route path="album/:album" element={<Album />} />
-            {/* <Route path="playlists" element={<AlbumList />} />
+            {/* <Route path="playlists" element={<AlbumList />} /> */}
             <Route path="playlist/:album" element={<Album />} />
-            <Route path="artists" element={<ArtistList />} />
+            {/* <Route path="artists" element={<ArtistList />} />
             <Route path="artist/:artist" element={<Artist />} />
             <Route path="songs" element={<SongList />} /> */}
             <Route path="*" element={<NotFound />} />

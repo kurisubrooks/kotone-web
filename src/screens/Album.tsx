@@ -1,4 +1,6 @@
 import { useParams } from 'react-router'
+import { FixedSizeList } from 'react-window'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import useClient from '../hooks/useClient'
 import useSingleItem from '../api/useSingleItem'
 import useItems from '../api/useItems'
@@ -15,18 +17,19 @@ const Album = () => {
     Fields: 'MediaSources',
   })
 
+  const playlist = album.data?.Type === 'Playlist'
   const image = client.server + '/Items/' + albumParam + '/Images/Primary'
 
   return (
-    <div className="p-4">
-      <div className="flex gap-4">
+    <div className="h-full px-4 pt-4">
+      <div className="flex h-full gap-4">
         <img
           src={image}
           className="round aspect-square h-72 w-72 object-cover"
         />
 
         {album.data && !album.isLoading && data && !isLoading && (
-          <div className="flex flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <div className="flex flex-col gap-2">
               <div className="text-4xl font-bold">{album.data.Name}</div>
               <div className="text-secondary text-2xl font-medium">
@@ -45,12 +48,24 @@ const Album = () => {
               </div>
             </div>
 
-            <div>
-              {data?.Items.map((item, index) => (
-                <div key={index}>
-                  {item.IndexNumber} {item.Name}
-                </div>
-              ))}
+            <div className="flex shrink grow basis-auto">
+              <AutoSizer>
+                {({ height, width }) => (
+                  <FixedSizeList
+                    width={width}
+                    height={height}
+                    itemCount={data.Items.length}
+                    itemSize={64}
+                  >
+                    {({ index, style }) => (
+                      <div style={style}>
+                        {!playlist ? data.Items[index].IndexNumber : ''}
+                        {data.Items[index].Name}
+                      </div>
+                    )}
+                  </FixedSizeList>
+                )}
+              </AutoSizer>
             </div>
           </div>
         )}
