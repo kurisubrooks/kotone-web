@@ -46,7 +46,7 @@ const Home = () => {
     },
     !!musicView,
   )
-  const recentlyAdded = useLatest(musicView!, { Limit: 5 }, !!musicView)
+  const recentlyAdded = useLatest(musicView!, { Limit: 10 }, !!musicView)
 
   return (
     <div className="flex flex-col gap-4 p-4">

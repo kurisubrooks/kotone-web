@@ -5,6 +5,7 @@ import useClient from '../hooks/useClient'
 import useSingleItem from '../api/useSingleItem'
 import useItems from '../api/useItems'
 import ticksToTime from '../lib/ticksToTime'
+import TrackListItem from '../components/TrackListItem'
 
 const Album = () => {
   const { album: albumParam } = useParams()
@@ -55,13 +56,20 @@ const Album = () => {
                     width={width}
                     height={height}
                     itemCount={data.Items.length}
-                    itemSize={64}
+                    itemSize={72}
                   >
                     {({ index, style }) => (
-                      <div style={style}>
-                        {!playlist ? data.Items[index].IndexNumber : ''}
-                        {data.Items[index].Name}
-                      </div>
+                      <TrackListItem
+                        item={data.Items[index]}
+                        showAlbumArt={playlist}
+                        showArtist={
+                          playlist ||
+                          data.Items[index].Artists.join() !==
+                            album.data.AlbumArtist
+                        }
+                        trackNumber={!playlist}
+                        style={style}
+                      />
                     )}
                   </FixedSizeList>
                 )}

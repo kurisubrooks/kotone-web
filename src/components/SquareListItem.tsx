@@ -31,10 +31,10 @@ const SquareListItem = ({ item, onClick, onContextMenu }: Props) => {
         src={image!}
         className="round aspect-square h-48 w-48 object-cover transition group-hover:scale-105 group-hover:brightness-125"
       />
-      <div className="flex flex-col">
-        <div className="font-medium">{item.Name}</div>
+      <div className="flex w-48 flex-col">
+        <div className="line-clamp-2 font-medium">{item.Name}</div>
         {'AlbumArtist' in item && (
-          <div className="text-secondary">{item.AlbumArtist}</div>
+          <div className="text-secondary line-clamp-1">{item.AlbumArtist}</div>
         )}
       </div>
     </div>
