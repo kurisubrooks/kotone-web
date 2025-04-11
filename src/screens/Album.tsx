@@ -6,12 +6,14 @@ import useSingleItem from '../api/useSingleItem'
 import useItems from '../api/useItems'
 import ticksToTime from '../lib/ticksToTime'
 import TrackListItem from '../components/TrackListItem'
-import { useAudioPlayerContext } from 'react-use-audio-player'
+import useQueue from '../hooks/useQueue'
+import usePlayer from '../hooks/usePlayer'
 
 const Album = () => {
   const { album: albumParam } = useParams()
   const client = useClient()
-  const { load } = useAudioPlayerContext()
+  const queue = useQueue()
+  const player = usePlayer()
 
   const album = useSingleItem(albumParam)
   const { data, isLoading } = useItems({
@@ -72,22 +74,9 @@ const Album = () => {
                         trackNumber={!playlist}
                         style={style}
                         onClick={() => {
-                          load(
-                            client.server +
-                              '/Audio/' +
-                              data.Items[index].Id +
-                              '/universal?userId=' +
-                              client.user +
-                              '&deviceId=' +
-                              client.deviceID +
-                              '&maxStreamingBitrate=640000&container=flac&audioCodec=flac&transcodingContainer=flac&transcodingProtocol=http&apiKey=' +
-                              client.token,
-                            {
-                              html5: true,
-                              autoplay: true,
-                              format: 'flac',
-                            },
-                          )
+                          const current = queue.trackID
+                          queue.setQueue(data.Items, index)
+                          if (data.Items[index].Id === current) player.play()
                         }}
                       />
                     )}

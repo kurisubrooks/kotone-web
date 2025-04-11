@@ -1,7 +1,7 @@
 import Item from 'jellyfin-api/lib/types/media/Item'
 import { Album, Playlist, Track } from '../types/ItemTypes'
 
-const itemToType = (item: Item): Track | Album | Playlist | Item => {
+const itemToType = (item: Item | Track): Track | Album | Playlist | Item => {
   const base = {
     Name: item.Name,
     Search: 'Search' in item ? (item.Search as string) : item.Name,
@@ -25,7 +25,6 @@ const itemToType = (item: Item): Track | Album | Playlist | Item => {
       AlbumArtists: item.AlbumArtists,
       AlbumPrimaryImageTag: item.AlbumPrimaryImageTag,
       NormalizationGain: item.NormalizationGain,
-      // @ts-expect-error idk i forget
       Bitrate:
         'Bitrate' in item && item.Bitrate
           ? item.Bitrate
