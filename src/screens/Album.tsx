@@ -6,10 +6,12 @@ import useSingleItem from '../api/useSingleItem'
 import useItems from '../api/useItems'
 import ticksToTime from '../lib/ticksToTime'
 import TrackListItem from '../components/TrackListItem'
+import { useAudioPlayerContext } from 'react-use-audio-player'
 
 const Album = () => {
   const { album: albumParam } = useParams()
   const client = useClient()
+  const { load } = useAudioPlayerContext()
 
   const album = useSingleItem(albumParam)
   const { data, isLoading } = useItems({
@@ -26,7 +28,7 @@ const Album = () => {
       <div className="flex h-full gap-4">
         <img
           src={image}
-          className="round aspect-square h-72 w-72 object-cover"
+          className="round aspect-square h-96 w-96 object-cover"
         />
 
         {album.data && !album.isLoading && data && !isLoading && (
@@ -69,6 +71,24 @@ const Album = () => {
                         }
                         trackNumber={!playlist}
                         style={style}
+                        onClick={() => {
+                          load(
+                            client.server +
+                              '/Audio/' +
+                              data.Items[index].Id +
+                              '/universal?userId=' +
+                              client.user +
+                              '&deviceId=' +
+                              client.deviceID +
+                              '&maxStreamingBitrate=640000&container=flac&audioCodec=flac&transcodingContainer=flac&transcodingProtocol=http&apiKey=' +
+                              client.token,
+                            {
+                              html5: true,
+                              autoplay: true,
+                              format: 'flac',
+                            },
+                          )
+                        }}
                       />
                     )}
                   </FixedSizeList>

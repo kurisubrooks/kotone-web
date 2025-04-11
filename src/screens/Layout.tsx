@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router'
+import { AudioPlayerProvider } from 'react-use-audio-player'
 import NavBar from '../components/NavBar'
 import FloatingPlayer from '../components/FloatingPlayer'
 import useLibrary from '../hooks/useLibrary'
 import useViews from '../api/useViews'
-import useItems from '../api/useItems'
+import AudioPlayer from '../components/AudioPlayer'
 
 const Layout = () => {
   const library = useLibrary()
@@ -22,13 +23,16 @@ const Layout = () => {
   }, [views.data])
 
   return (
-    <div className="flex w-full flex-col">
-      <NavBar />
+    <AudioPlayerProvider>
+      <AudioPlayer />
+      <div className="flex w-full flex-col">
+        <NavBar />
 
-      <Outlet />
+        <Outlet />
 
-      <FloatingPlayer />
-    </div>
+        <FloatingPlayer />
+      </div>
+    </AudioPlayerProvider>
   )
 }
 

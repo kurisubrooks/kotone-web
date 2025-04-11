@@ -1,6 +1,9 @@
+import { useAudioPlayerContext } from 'react-use-audio-player'
 import Icon from './Icon'
 
 const FloatingPlayer = () => {
+  const { isPlaying, togglePlayPause } = useAudioPlayerContext()
+
   return (
     <div className="absolute bottom-4 flex w-full justify-center">
       <div className="text-w round flex w-lg items-center bg-pink-800/40">
@@ -12,7 +15,15 @@ const FloatingPlayer = () => {
           </div>
         </div>
         <div className="flex gap-2 px-4">
-          <Icon icon="play_arrow" size={32} filled />
+          <Icon
+            icon={isPlaying ? 'pause' : 'play_arrow'}
+            size={32}
+            filled
+            onClick={() => {
+              togglePlayPause()
+            }}
+            className="hover:cursor-pointer"
+          />
           <Icon icon="skip_next" size={32} filled />
         </div>
       </div>
