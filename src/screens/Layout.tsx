@@ -26,7 +26,9 @@ const Layout = () => {
       <div className="flex w-full flex-col">
         <NavBar />
 
-        <Outlet />
+        <div className="h-full w-full overflow-x-hidden overflow-y-scroll">
+          <Outlet />
+        </div>
 
         <FloatingPlayer />
       </div>

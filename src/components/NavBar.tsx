@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router'
 import useClient from '../hooks/useClient'
 import useSettings from '../hooks/useSettings'
 import Icon from './Icon'
@@ -5,10 +6,26 @@ import Icon from './Icon'
 const NavBar = () => {
   const client = useClient()
   const settings = useSettings()
+  const navigate = useNavigate()
 
   return (
     <div className="flex justify-between gap-4 px-6 py-2">
-      <div />
+      <div className="flex items-center gap-4">
+        <Icon
+          icon="arrow_back"
+          onClick={() => {
+            navigate(-1)
+          }}
+          className="hover:cursor-pointer"
+        />
+        <Icon
+          icon="home"
+          onClick={() => {
+            navigate('/home')
+          }}
+          className="hover:cursor-pointer"
+        />
+      </div>
 
       <div className="flex items-center">
         <input
@@ -22,23 +39,21 @@ const NavBar = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <div
+        <Icon
+          icon="logout"
           onClick={() => {
             client.signout()
           }}
-        >
-          <Icon icon="logout" />
-        </div>
-        <div
+          className="hover:cursor-pointer"
+        />
+        <Icon
+          icon={settings.dark ? 'light_mode' : 'dark_mode'}
           onClick={() => {
             settings.setDark(!settings.dark)
           }}
-        >
-          <Icon icon={settings.dark ? 'light_mode' : 'dark_mode'} />
-        </div>
-        <div>
-          <Icon icon="settings" />
-        </div>
+          className="hover:cursor-pointer"
+        />
+        <Icon icon="settings" />
       </div>
     </div>
   )

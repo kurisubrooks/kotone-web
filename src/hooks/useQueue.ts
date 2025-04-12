@@ -5,6 +5,7 @@ import { Track } from '../types/ItemTypes'
 import itemToType from '../lib/itemToType'
 import storage from '../lib/storage'
 import usePlayer from './usePlayer'
+import emitter from '../lib/emitter'
 
 interface QueueStore {
   track: number
@@ -42,16 +43,15 @@ const useQueue = create<QueueStore>()(
       },
       prevTrack: async () => {
         const current = get().track
-        // const progress = await TrackPlayer.getProgress()
-        // if (progress.position < 1.0 && current !== 0) {
-        //   set((state) => ({
-        //     track: state.track - 1,
-        //     trackID: state.queue[state.track - 1].Id,
-        //   }))
-        //   await TrackPlayer.skipToPrevious()
-        // } else {
-        //   await TrackPlayer.seekTo(0)
-        // }
+        const progress = usePlayer.getState().progress
+        if (progress < 1.0 && current !== 0) {
+          set((state) => ({
+            track: state.track - 1,
+            trackID: state.queue[state.track - 1].Id,
+          }))
+        } else {
+          emitter.emitp('seek', 0)
+        }
       },
       nextTrack: () => {
         const current = get().track
@@ -60,16 +60,17 @@ const useQueue = create<QueueStore>()(
         if (current === length - 1) {
           if (repeat === 'queue') {
             set((state) => ({ track: 0, trackId: state.queue[0].Id }))
-            // TrackPlayer.skip(0)
           } else if (repeat == 'track') {
-            // TrackPlayer.seekTo(0)
+            console.log('repeat track?')
+          } else {
+            emitter.emitp('seek', usePlayer.getState().duration)
+            usePlayer.getState().pause()
           }
         } else {
           set((state) => ({
             track: state.track + 1,
             trackID: state.queue[state.track + 1].Id,
           }))
-          // TrackPlayer.skipToNext()
         }
       },
       setRepeat: (mode) => {
@@ -157,7 +158,6 @@ const useQueue = create<QueueStore>()(
       storage: createJSONStorage(() => storage),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true)
-        usePlayer.getState().setAutoplay(true)
       },
     },
   ),

@@ -36,9 +36,9 @@
   }
 }
 .text-secondary {
-  @apply text-zinc-900/80;
+  @apply text-zinc-900/70;
   @variant dark {
-    @apply text-zinc-100/80;
+    @apply text-zinc-100/70;
   }
 }
 .text-w {
@@ -46,4 +46,8 @@
 }
 .text-b {
   @apply text-zinc-900;
+}
+
+.player-width {
+  @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl;
 }

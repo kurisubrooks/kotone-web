@@ -1,16 +1,16 @@
 import { create } from 'zustand'
-import emitter from '../lib/events'
+import emitter from '../lib/emitter'
 
 interface PlayerStore {
-  autoplay: boolean
   isPlaying: boolean
   isBuffering: boolean
   progress: number
+  duration: number
 
-  setAutoplay: (state: boolean) => void
   setIsPlaying: (state: boolean) => void
   setIsBuffering: (state: boolean) => void
   setProgress: (value: number) => void
+  setDuration: (value: number) => void
 
   play: () => void
   pause: () => void
@@ -18,15 +18,15 @@ interface PlayerStore {
 }
 
 const usePlayer = create<PlayerStore>()((set, get) => ({
-  autoplay: false,
   isPlaying: false,
   isBuffering: false,
   progress: 0,
+  duration: 0,
 
-  setAutoplay: (state) => set(() => ({ autoplay: state })),
   setIsPlaying: (state) => set(() => ({ isPlaying: state })),
   setIsBuffering: (state) => set(() => ({ isBuffering: state })),
   setProgress: (value) => set(() => ({ progress: value })),
+  setDuration: (value) => set(() => ({ duration: value })),
 
   play: () => {
     emitter.emit('play')
