@@ -1,15 +1,27 @@
+import { useRef } from 'react'
 import { useNavigate } from 'react-router'
+import { useDebouncedCallback } from 'use-debounce'
 import useClient from '../hooks/useClient'
 import useSettings from '../hooks/useSettings'
+import useSearch from '../hooks/useSearch'
 import Icon from './Icon'
 
 const NavBar = () => {
   const client = useClient()
   const settings = useSettings()
   const navigate = useNavigate()
+  const search = useSearch()
+
+  const searchRef = useRef<HTMLInputElement>(null)
+  const setQuery = useDebouncedCallback((query: string) => {
+    if (query) {
+      search.setQuery(query)
+      navigate('/search')
+    }
+  }, 200)
 
   return (
-    <div className="flex justify-between gap-4 px-6 py-2">
+    <div className="flex justify-between gap-8 px-6 py-2">
       <div className="flex items-center gap-4">
         <Icon
           icon="arrow_back"
@@ -23,17 +35,38 @@ const NavBar = () => {
           onClick={() => {
             navigate('/')
           }}
+          filled
           className="hover:cursor-pointer"
         />
       </div>
 
-      <div className="flex items-center">
+      <div className="flex grow items-center">
         <input
+          ref={searchRef}
           type="text"
           placeholder="Search..."
-          className="bg-w text-b w-md rounded-l-2xl px-4 py-1.5"
+          className="bg-w text-b grow rounded-l-2xl px-4 py-1.5"
+          onChange={(e) => setQuery(e.target.value)}
         />
-        <div className="bg-w text-b flex h-full items-center rounded-r-2xl px-2">
+        <div
+          className="bg-w text-b flex h-full items-center px-2 hover:cursor-pointer"
+          onClick={() => {
+            if (searchRef.current) searchRef.current.value = ''
+            searchRef.current?.focus()
+          }}
+        >
+          <Icon icon="close" />
+        </div>
+        <div
+          className="bg-w text-b flex h-full items-center rounded-r-2xl px-2 hover:cursor-pointer"
+          onClick={() => {
+            const query = searchRef.current!.value
+            if (query) {
+              search.setQuery(query)
+              navigate('/search')
+            }
+          }}
+        >
           <Icon icon="search" />
         </div>
       </div>
@@ -51,6 +84,7 @@ const NavBar = () => {
           onClick={() => {
             settings.setDark(!settings.dark)
           }}
+          filled
           className="hover:cursor-pointer"
         />
         <Icon icon="settings" />

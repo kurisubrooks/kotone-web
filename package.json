@@ -31,6 +31,8 @@
     "react-window": "1.8.11",
     "tailwind-merge": "3.2.0",
     "ua-parser-js": "2.0.3",
+    "use-debounce": "10.0.4",
+    "wanakana": "^5.3.1",
     "zustand": "5.0.3"
   },
   "devDependencies": {

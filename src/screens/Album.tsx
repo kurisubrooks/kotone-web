@@ -13,7 +13,7 @@ const Album = () => {
   const { album: albumParam } = useParams()
   const client = useClient()
   const queue = useQueue()
-  const player = useProgress()
+  const { play } = useProgress()
 
   const album = useSingleItem(albumParam)
   const { data, isLoading } = useItems({
@@ -61,6 +61,7 @@ const Album = () => {
                     height={height}
                     itemCount={data.Items.length}
                     itemSize={72}
+                    className="pb-24"
                   >
                     {({ index, style }) => (
                       <TrackListItem
@@ -76,7 +77,7 @@ const Album = () => {
                         onClick={() => {
                           const current = queue.trackID
                           queue.setQueue(data.Items, index)
-                          if (data.Items[index].Id === current) player.play()
+                          if (data.Items[index].Id === current) play()
                         }}
                         playing={data.Items[index].Id === queue.trackID}
                       />
