@@ -4,7 +4,7 @@ import Item from 'jellyfin-api/lib/types/media/Item'
 import { Track } from '../types/ItemTypes'
 import itemToType from '../lib/itemToType'
 import storage from '../lib/storage'
-import usePlayer from './usePlayer'
+import useProgress from './usePlayer'
 import emitter from '../lib/emitter'
 
 interface QueueStore {
@@ -43,7 +43,7 @@ const useQueue = create<QueueStore>()(
       },
       prevTrack: async () => {
         const current = get().track
-        const progress = usePlayer.getState().progress
+        const progress = useProgress.getState().progress
         if (progress < 1.0 && current !== 0) {
           set((state) => ({
             track: state.track - 1,
@@ -63,8 +63,8 @@ const useQueue = create<QueueStore>()(
           } else if (repeat == 'track') {
             console.log('repeat track?')
           } else {
-            emitter.emitp('seek', usePlayer.getState().duration)
-            usePlayer.getState().pause()
+            emitter.emitp('seek', useProgress.getState().duration)
+            useProgress.getState().pause()
           }
         } else {
           set((state) => ({
@@ -106,11 +106,10 @@ const useQueue = create<QueueStore>()(
           track: newIndex,
           trackID: newQueue[newIndex].Id,
         }))
-        // await TrackPlayer.move(fromIndex, toIndex)
       },
       clearQueue: () => {
         set(() => ({ queue: [], track: 0, trackID: undefined }))
-        // TrackPlayer.reset()
+        emitter.emit('pause')
       },
       addQueue: (items) => {
         const tracks = items.map((item) => itemToType(item) as Track)

@@ -1,7 +1,8 @@
+import { CSSProperties, MouseEventHandler } from 'react'
 import Item from 'jellyfin-api/lib/types/media/Item'
-import { CSSProperties } from 'react'
 import useClient from '../hooks/useClient'
 import ticksToTime from '../lib/ticksToTime'
+import Icon from './Icon'
 
 interface Props {
   item: Item
@@ -9,6 +10,7 @@ interface Props {
   showArtist?: boolean
   showDuration?: boolean
   trackNumber?: boolean
+  playing?: boolean
   style?: CSSProperties
   onClick?: MouseEventHandler<HTMLDivElement>
   onContextMenu?: MouseEventHandler<HTMLDivElement>
@@ -20,6 +22,7 @@ const TrackListItem = ({
   showArtist = true,
   showDuration = true,
   trackNumber = false,
+  playing = false,
   style,
   onClick,
   onContextMenu,
@@ -45,15 +48,21 @@ const TrackListItem = ({
     >
       {trackNumber && !showAlbumArt && (
         <div className="flex w-16 items-center justify-center">
-          {item.IndexNumber}
+          {playing ? <Icon icon="equalizer" size={24} /> : item.IndexNumber}
         </div>
       )}
-      {showAlbumArt && !trackNumber && (
-        <img
-          src={image}
-          className="round aspect-square h-16 w-16 object-cover"
-        />
-      )}
+      {showAlbumArt &&
+        !trackNumber &&
+        (playing ? (
+          <div className="flex w-16 items-center justify-center">
+            <Icon icon="equalizer" size={24} />
+          </div>
+        ) : (
+          <img
+            src={image!}
+            className="round aspect-square h-16 w-16 object-cover"
+          />
+        ))}
       <div className="flex grow flex-col justify-center">
         <div className="line-clamp-1 font-medium">{item.Name}</div>
         {showArtist && (

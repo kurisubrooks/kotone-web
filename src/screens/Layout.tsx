@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router'
 import NavBar from '../components/NavBar'
-import FloatingPlayer from '../components/FloatingPlayer'
+import FloatingPlayer from '../components/FloatingPlayer/FloatingPlayer'
 import useLibrary from '../hooks/useLibrary'
 import useViews from '../api/useViews'
 import AudioPlayer from '../components/AudioPlayer'

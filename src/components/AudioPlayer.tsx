@@ -3,11 +3,15 @@ import useClient from '../hooks/useClient'
 import useQueue from '../hooks/useQueue'
 import emitter, { Event } from '../lib/emitter'
 import usePlayer from '../hooks/usePlayer'
+import useProgress from '../hooks/useProgress'
+import useSettings from '../hooks/useSettings'
 
 const AudioPlayer = () => {
   const client = useClient()
   const queue = useQueue()
   const player = usePlayer()
+  const progress = useProgress()
+  const settings = useSettings()
   const audioRef = useRef<HTMLAudioElement>(null)
   const [autoplay, setAutoplay] = useState<boolean>(false)
   const [metadata, setMetadata] = useState<MediaMetadata>()
@@ -36,6 +40,20 @@ const AudioPlayer = () => {
       )
     }
   }, [track, image])
+
+  const gain = settings.gain
+    ? track
+      ? 'NormalizationGain' in track
+        ? Math.min(
+            Math.max(Math.pow(10, track.NormalizationGain / 20), 0.0),
+            1.0,
+          )
+        : 0.5
+      : 0.5
+    : 1.0
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = gain
+  }, [gain])
 
   const audioSource =
     queue.queue.length > 0
@@ -67,13 +85,11 @@ const AudioPlayer = () => {
   }, [])
 
   const event = (event: Event) => {
-    console.log('EVENT', event)
     if (event === 'play') audioRef.current?.play()
     if (event === 'pause') audioRef.current?.pause()
   }
-
   const seek = (payload: number) => {
-    audioRef.current?.fastSeek(payload)
+    if (audioRef.current) audioRef.current.currentTime = payload
   }
 
   const audioEvents: DOMAttributes<HTMLAudioElement> = {
@@ -92,7 +108,7 @@ const AudioPlayer = () => {
       player.setIsBuffering(true)
     },
     onTimeUpdate: (e) => {
-      player.setProgress(e.currentTarget.currentTime)
+      progress.setProgress(e.currentTarget.currentTime)
     },
     onLoadedMetadata: (e) => {
       player.setDuration(e.currentTarget.duration)

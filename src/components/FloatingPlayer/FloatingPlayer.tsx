@@ -1,13 +1,14 @@
 import { Blurhash } from 'react-blurhash'
-import useClient from '../hooks/useClient'
-import useQueue from '../hooks/useQueue'
-import usePlayer from '../hooks/usePlayer'
-import Icon from './Icon'
+import useClient from '../../hooks/useClient'
+import useQueue from '../../hooks/useQueue'
+import useProgress from '../../hooks/usePlayer'
+import Progress from './Progress'
+import Button from './Button'
 
 const FloatingPlayer = () => {
   const client = useClient()
   const queue = useQueue()
-  const player = usePlayer()
+  const player = useProgress()
 
   const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
   const image = track
@@ -44,12 +45,7 @@ const FloatingPlayer = () => {
           )}
         </div>
         <div className="text-w round player-width z-20 flex items-center overflow-hidden bg-zinc-900/20">
-          <div className="round player-width pointer-events-none absolute bottom-0 h-full grow overflow-hidden">
-            <div
-              className="absolute bottom-0 h-1 bg-zinc-100/40"
-              style={{ width: (player.progress / player.duration) * 100 + '%' }}
-            />
-          </div>
+          <Progress />
           <div className="flex grow gap-4">
             <div className="round bg-w h-16 w-16 overflow-hidden">
               <img
@@ -64,24 +60,32 @@ const FloatingPlayer = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 px-4">
-            <Icon
+          <div className="flex px-4">
+            <Button
+              icon="skip_previous"
+              onClick={() => {
+                queue.prevTrack()
+              }}
+              show="sm"
+            />
+            <Button
               icon={player.isPlaying ? 'pause' : 'play_arrow'}
-              size={32}
-              filled
               onClick={() => {
                 player.playpause()
               }}
-              className="hover:cursor-pointer"
             />
-            <Icon
+            <Button
+              icon="stop"
+              onClick={() => {
+                queue.clearQueue()
+              }}
+              show="md"
+            />
+            <Button
               icon="skip_next"
-              size={32}
-              filled
               onClick={() => {
                 queue.nextTrack()
               }}
-              className="hover:cursor-pointer"
             />
           </div>
         </div>

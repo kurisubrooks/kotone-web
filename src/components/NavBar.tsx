@@ -21,7 +21,7 @@ const NavBar = () => {
         <Icon
           icon="home"
           onClick={() => {
-            navigate('/home')
+            navigate('/')
           }}
           className="hover:cursor-pointer"
         />

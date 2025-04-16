@@ -7,13 +7,13 @@ import useItems from '../api/useItems'
 import ticksToTime from '../lib/ticksToTime'
 import TrackListItem from '../components/TrackListItem'
 import useQueue from '../hooks/useQueue'
-import usePlayer from '../hooks/usePlayer'
+import useProgress from '../hooks/usePlayer'
 
 const Album = () => {
   const { album: albumParam } = useParams()
   const client = useClient()
   const queue = useQueue()
-  const player = usePlayer()
+  const player = useProgress()
 
   const album = useSingleItem(albumParam)
   const { data, isLoading } = useItems({
@@ -78,6 +78,7 @@ const Album = () => {
                           queue.setQueue(data.Items, index)
                           if (data.Items[index].Id === current) player.play()
                         }}
+                        playing={data.Items[index].Id === queue.trackID}
                       />
                     )}
                   </FixedSizeList>

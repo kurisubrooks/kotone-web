@@ -17,11 +17,10 @@ const LayoutExt = () => {
     if (client.hasHydrated) {
       if (client.client) {
         if (
-          location.pathname === '/' ||
           location.pathname === '/server' ||
           location.pathname.startsWith('/signin')
         )
-          navigate('/home')
+          navigate('/')
       } else if (
         !client.client &&
         client.server &&

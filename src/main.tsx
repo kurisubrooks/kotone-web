@@ -1,3 +1,8 @@
+import { scan } from 'react-scan'
+scan({
+  enabled: process.env.NODE_ENV === 'development',
+})
+
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -21,12 +26,11 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route element={<LayoutExt />}>
-          <Route index element={<Splash />} />
           <Route path="server" element={<Server />} />
           <Route path="signin/:server?" element={<Signin />} />
 
           <Route element={<Layout />}>
-            <Route path="home" element={<Home />} />
+            <Route index element={<Home />} />
             {/* <Route path="albums" element={<AlbumList />} /> */}
             <Route path="album/:album" element={<Album />} />
             {/* <Route path="playlists" element={<AlbumList />} /> */}
@@ -36,6 +40,8 @@ createRoot(document.getElementById('root')!).render(
             <Route path="songs" element={<SongList />} /> */}
             <Route path="*" element={<NotFound />} />
           </Route>
+
+          <Route index element={<Splash />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -12,42 +12,42 @@
   font-variation-settings: 'FILL' 1;
 }
 
-.round {
+@utility round {
   @apply rounded-2xl;
 }
 
-.bg-primary {
+@utility bg-primary {
   @apply bg-linear-160 from-purple-200 to-pink-200;
   @variant dark {
     @apply bg-linear-160 from-purple-400 to-pink-400;
   }
 }
-.bg-w {
+@utility bg-w {
   @apply bg-zinc-100;
 }
-.bg-b {
+@utility bg-b {
   @apply bg-zinc-900;
 }
 
-.text-primary {
+@utility text-primary {
   @apply text-zinc-900;
   @variant dark {
     @apply text-zinc-100;
   }
 }
-.text-secondary {
+@utility text-secondary {
   @apply text-zinc-900/70;
   @variant dark {
     @apply text-zinc-100/70;
   }
 }
-.text-w {
+@utility text-w {
   @apply text-zinc-100;
 }
-.text-b {
+@utility text-b {
   @apply text-zinc-900;
 }
 
-.player-width {
+@utility player-width {
   @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl;
 }
