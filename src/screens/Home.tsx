@@ -1,13 +1,16 @@
 import { Link } from 'react-router'
-import useClient from '../hooks/useClient'
 import useLibrary from '../hooks/useLibrary'
+import useQueue from '../hooks/useQueue'
+import usePlayer from '../hooks/usePlayer'
 import useItems from '../api/useItems'
 import useLatest from '../api/useLatest'
 import SquareListItem from '../components/SquareListItem'
+import TrackListItem from '../components/TrackListItem'
 
 const Home = () => {
-  const client = useClient()
   const library = useLibrary()
+  const queue = useQueue()
+  const { play } = usePlayer()
 
   const musicView =
     library.viewIDs && 'music' in library.viewIDs ? library.viewIDs.music : null
@@ -31,7 +34,7 @@ const Home = () => {
     IncludeItemTypes: 'Audio',
     Recursive: true,
     Filter: 'IsPlayed',
-    Limit: 2,
+    Limit: 4,
     Fields: 'MediaSources',
   })
   const recentlyPlayed = useItems(
@@ -41,7 +44,7 @@ const Home = () => {
       IncludeItemTypes: 'Audio',
       Recursive: true,
       Filter: 'IsPlayed',
-      Limit: 2,
+      Limit: 4,
       Fields: 'MediaSources',
     },
     !!musicView,
@@ -49,10 +52,10 @@ const Home = () => {
   const recentlyAdded = useLatest(musicView!, { Limit: 50 }, !!musicView)
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="player-padding flex flex-col gap-4 p-4">
       {!playlists.isLoading && playlists.data && (
         <div className="flex flex-col gap-1">
-          <div className="text-2xl font-medium">Playlists</div>
+          <h2 className="text-2xl font-medium">Playlists</h2>
           <div className="flex gap-4 overflow-x-scroll">
             {playlists.data.Items.map((item) => (
               <Link key={'playlist_' + item.Id} to={'/playlist/' + item.Id}>
@@ -63,9 +66,45 @@ const Home = () => {
         </div>
       )}
 
+      <div className="flex flex-row gap-4">
+        {!recentlyPlayed.isLoading && recentlyPlayed.data && (
+          <div className="flex grow flex-col">
+            <h2 className="text-2xl font-medium">Recently Played</h2>
+            {recentlyPlayed.data.Items.map((item, index) => (
+              <TrackListItem
+                key={'rp_' + index}
+                item={item}
+                onClick={() => {
+                  queue.setQueue([item])
+                  play()
+                }}
+                playing={item.Id === queue.trackID}
+              />
+            ))}
+          </div>
+        )}
+
+        {!frequent.isLoading && frequent.data && (
+          <div className="flex grow flex-col">
+            <h2 className="text-2xl font-medium">Frequently Played</h2>
+            {frequent.data.Items.map((item, index) => (
+              <TrackListItem
+                key={'rp_' + index}
+                item={item}
+                onClick={() => {
+                  queue.setQueue([item])
+                  play()
+                }}
+                playing={item.Id === queue.trackID}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
       {!recentlyAdded.isLoading && recentlyAdded.data && (
         <div className="flex flex-col gap-1">
-          <div className="text-2xl font-medium">Recently Added</div>
+          <h2 className="text-2xl font-medium">Recently Added</h2>
           <div className="flex gap-4 overflow-x-scroll">
             {recentlyAdded.data.map((item) => (
               <Link key={'ra_' + item.Id} to={'/album/' + item.Id}>

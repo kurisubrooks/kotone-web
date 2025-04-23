@@ -89,6 +89,12 @@ const NavBar = () => {
         />
         <Icon icon="settings" />
       </div>
+
+      {process.env.NODE_ENV === 'development' && (
+        <div className="flex items-center font-mono text-sm">
+          {__COMMMIT_HASH__}
+        </div>
+      )}
     </div>
   )
 }

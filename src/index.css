@@ -54,3 +54,7 @@
 @utility player-width {
   @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl;
 }
+
+@utility player-padding {
+  @apply pb-24;
+}

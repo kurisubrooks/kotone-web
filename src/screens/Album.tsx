@@ -7,13 +7,13 @@ import useItems from '../api/useItems'
 import ticksToTime from '../lib/ticksToTime'
 import TrackListItem from '../components/TrackListItem'
 import useQueue from '../hooks/useQueue'
-import useProgress from '../hooks/usePlayer'
+import usePlayer from '../hooks/usePlayer'
 
 const Album = () => {
   const { album: albumParam } = useParams()
   const client = useClient()
   const queue = useQueue()
-  const { play } = useProgress()
+  const { play } = usePlayer()
 
   const album = useSingleItem(albumParam)
   const { data, isLoading } = useItems({
@@ -61,7 +61,7 @@ const Album = () => {
                     height={height}
                     itemCount={data.Items.length}
                     itemSize={72}
-                    className="pb-24"
+                    className="player-padding"
                   >
                     {({ index, style }) => (
                       <TrackListItem
