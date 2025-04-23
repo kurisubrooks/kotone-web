@@ -15,6 +15,9 @@
 @utility round {
   @apply rounded-2xl;
 }
+@utility round-2 {
+  @apply rounded-4xl;
+}
 
 @utility bg-primary {
   @apply bg-linear-160 from-purple-200 to-pink-200;

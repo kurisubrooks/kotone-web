@@ -63,10 +63,10 @@ const TrackListItem = ({
             className="round aspect-square h-16 w-16 object-cover"
           />
         ))}
-      <div className="flex grow flex-col justify-center">
+      <div className="flex grow basis-0 flex-col justify-center">
         <div className="line-clamp-1 font-medium">{item.Name}</div>
         {showArtist && (
-          <div className="text-secondary clamp-1">
+          <div className="text-secondary line-clamp-1">
             {item.Type === 'MusicAlbum'
               ? item.AlbumArtist
               : item.Artists.join(', ')}

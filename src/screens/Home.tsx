@@ -46,14 +46,14 @@ const Home = () => {
     },
     !!musicView,
   )
-  const recentlyAdded = useLatest(musicView!, { Limit: 10 }, !!musicView)
+  const recentlyAdded = useLatest(musicView!, { Limit: 50 }, !!musicView)
 
   return (
     <div className="flex flex-col gap-4 p-4">
       {!playlists.isLoading && playlists.data && (
         <div className="flex flex-col gap-1">
           <div className="text-2xl font-medium">Playlists</div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 overflow-x-scroll">
             {playlists.data.Items.map((item) => (
               <Link key={'playlist_' + item.Id} to={'/playlist/' + item.Id}>
                 <SquareListItem item={item} />
@@ -66,7 +66,7 @@ const Home = () => {
       {!recentlyAdded.isLoading && recentlyAdded.data && (
         <div className="flex flex-col gap-1">
           <div className="text-2xl font-medium">Recently Added</div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 overflow-x-scroll">
             {recentlyAdded.data.map((item) => (
               <Link key={'ra_' + item.Id} to={'/album/' + item.Id}>
                 <SquareListItem item={item} />

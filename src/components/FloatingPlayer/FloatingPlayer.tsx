@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'motion/react'
 import { Blurhash } from 'react-blurhash'
 import useClient from '../../hooks/useClient'
 import useQueue from '../../hooks/useQueue'
@@ -32,65 +33,76 @@ const FloatingPlayer = () => {
     : null
 
   return (
-    track && (
-      <div className="absolute bottom-4 flex w-full justify-center">
-        <div className="player-width round pointer-events-none absolute z-10 h-full overflow-hidden bg-zinc-900">
-          {blurhash && (
-            <Blurhash
-              hash={blurhash}
-              width="100%"
-              height={256}
-              className="-top-24"
-            />
-          )}
-        </div>
-        <div className="text-w round player-width z-20 flex items-center overflow-hidden bg-zinc-900/20">
-          <Progress />
-          <div className="flex grow gap-4">
-            <div className="round bg-w h-16 w-16 overflow-hidden">
-              <img
-                src={image!}
-                className="aspect-square h-16 w-16 object-cover"
+    <AnimatePresence>
+      {track && (
+        <motion.div
+          className="absolute bottom-4 flex w-full justify-center"
+          initial={{ y: 16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 16, opacity: 0 }}
+          transition={{
+            duration: 0.1,
+            easings: ['easeIn', 'easeOut'],
+          }}
+        >
+          <div className="player-width round pointer-events-none absolute z-10 h-full overflow-hidden bg-zinc-900">
+            {blurhash && (
+              <Blurhash
+                hash={blurhash}
+                width="100%"
+                height={256}
+                className="-top-24"
               />
-            </div>
-            <div className="flex flex-col justify-center">
-              <div className="text-xl font-medium">{track?.Name}</div>
-              <div className="text-zinc-100/70">
-                {track?.Artists.join(', ')}
+            )}
+          </div>
+          <div className="text-w round player-width z-20 flex items-center overflow-hidden bg-zinc-900/20">
+            <Progress />
+            <div className="flex grow gap-4">
+              <div className="round bg-w h-16 w-16 overflow-hidden">
+                <img
+                  src={image!}
+                  className="aspect-square h-16 w-16 object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <div className="text-xl font-medium">{track?.Name}</div>
+                <div className="text-zinc-100/70">
+                  {track?.Artists.join(', ')}
+                </div>
               </div>
             </div>
+            <div className="flex px-4">
+              <Button
+                icon="skip_previous"
+                onClick={() => {
+                  queue.prevTrack()
+                }}
+                show="sm"
+              />
+              <Button
+                icon={player.isPlaying ? 'pause' : 'play_arrow'}
+                onClick={() => {
+                  player.playpause()
+                }}
+              />
+              <Button
+                icon="stop"
+                onClick={() => {
+                  queue.clearQueue()
+                }}
+                show="md"
+              />
+              <Button
+                icon="skip_next"
+                onClick={() => {
+                  queue.nextTrack()
+                }}
+              />
+            </div>
           </div>
-          <div className="flex px-4">
-            <Button
-              icon="skip_previous"
-              onClick={() => {
-                queue.prevTrack()
-              }}
-              show="sm"
-            />
-            <Button
-              icon={player.isPlaying ? 'pause' : 'play_arrow'}
-              onClick={() => {
-                player.playpause()
-              }}
-            />
-            <Button
-              icon="stop"
-              onClick={() => {
-                queue.clearQueue()
-              }}
-              show="md"
-            />
-            <Button
-              icon="skip_next"
-              onClick={() => {
-                queue.nextTrack()
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    )
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
