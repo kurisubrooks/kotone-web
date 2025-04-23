@@ -66,11 +66,11 @@ const Home = () => {
         </div>
       )}
 
-      <div className="flex flex-row gap-4">
-        {!recentlyPlayed.isLoading && recentlyPlayed.data && (
-          <div className="flex grow flex-col">
-            <h2 className="text-2xl font-medium">Recently Played</h2>
-            {recentlyPlayed.data.Items.map((item, index) => (
+      <div className="flex flex-col gap-4 md:flex-row">
+        {!frequent.isLoading && frequent.data && (
+          <div className="flex flex-1 flex-col">
+            <h2 className="text-2xl font-medium">Frequently Played</h2>
+            {frequent.data.Items.map((item, index) => (
               <TrackListItem
                 key={'rp_' + index}
                 item={item}
@@ -84,10 +84,10 @@ const Home = () => {
           </div>
         )}
 
-        {!frequent.isLoading && frequent.data && (
-          <div className="flex grow flex-col">
-            <h2 className="text-2xl font-medium">Frequently Played</h2>
-            {frequent.data.Items.map((item, index) => (
+        {!recentlyPlayed.isLoading && recentlyPlayed.data && (
+          <div className="flex flex-1 flex-col">
+            <h2 className="text-2xl font-medium">Recently Played</h2>
+            {recentlyPlayed.data.Items.map((item, index) => (
               <TrackListItem
                 key={'rp_' + index}
                 item={item}

@@ -91,7 +91,7 @@ const TrackListItem = ({
             )}
           </div>
         )}
-        <div className="flex grow basis-0 flex-col justify-center">
+        <div className="flex flex-1 flex-col justify-center">
           <div className="line-clamp-1 font-medium">{item.Name}</div>
           {showArtist && (
             <div className="text-secondary line-clamp-1">
