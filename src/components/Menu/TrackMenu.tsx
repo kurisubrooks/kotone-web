@@ -14,7 +14,7 @@ const TrackMenu = () => {
   const track = menu.data!
 
   return (
-    <div className="flex flex-col">
+    <div className="relative z-100 flex flex-col bg-zinc-900/20">
       <Option
         text="Play"
         icon="play_arrow"

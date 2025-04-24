@@ -27,9 +27,9 @@ const useMenu = create<MenuStore>()((set, get) => ({
   setMenu: (event, type, data) => {
     set(() => ({
       showMenu: true,
-      x: Math.min(Math.max(event.pageX - 16, 16), window.innerWidth - 256 - 16),
+      x: Math.min(Math.max(event.pageX - 24, 16), window.innerWidth - 256 - 16),
       y: Math.min(
-        Math.max(event.pageY - 16, 16),
+        Math.max(event.pageY - 24, 16),
         window.innerHeight - 336 - 16,
       ),
       type: type,

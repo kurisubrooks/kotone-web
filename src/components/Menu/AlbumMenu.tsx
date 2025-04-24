@@ -23,7 +23,7 @@ const AlbumMenu = () => {
   const playlist = album.Type === 'Playlist'
 
   return (
-    <div className="flex flex-col">
+    <div className="relative z-100 flex flex-col bg-zinc-900/20">
       <Option
         text={playlist ? 'Play Playlist' : 'Play Album'}
         icon="play_arrow"

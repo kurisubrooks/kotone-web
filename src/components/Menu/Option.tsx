@@ -20,9 +20,9 @@ const Option = ({
   return (
     <div
       className={cn(
-        'flex h-12 hover:bg-zinc-100/20',
+        'flex h-12',
         !disabled
-          ? 'hover:cursor-pointer'
+          ? 'hover:cursor-pointer hover:bg-zinc-100/20'
           : 'text-zinc-100/40 hover:cursor-default',
       )}
       onClick={!disabled ? onClick : undefined}
