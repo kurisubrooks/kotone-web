@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react'
 import useMenu from '../../hooks/useMenu'
-import Track from './Track'
+import TrackMenu from './TrackMenu'
+import AlbumMenu from './AlbumMenu'
 
 const Menu = () => {
   const menu = useMenu()
@@ -18,11 +19,12 @@ const Menu = () => {
           }}
           className="round absolute z-100 min-w-64 overflow-hidden bg-zinc-900 text-zinc-100"
           style={{
-            left: menu.x - 16,
-            top: menu.y - 16,
+            left: menu.x,
+            top: menu.y,
           }}
         >
-          {menu.type === 'track' && <Track />}
+          {menu.type === 'track' && <TrackMenu />}
+          {menu.type === 'album' && <AlbumMenu />}
         </motion.div>
       )}
     </AnimatePresence>

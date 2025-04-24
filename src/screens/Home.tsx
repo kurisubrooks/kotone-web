@@ -61,7 +61,10 @@ const Home = () => {
           <div className="flex gap-4 overflow-x-scroll">
             {playlists.data.Items.map((item) => (
               <Link key={'playlist_' + item.Id} to={'/playlist/' + item.Id}>
-                <SquareListItem item={item} />
+                <SquareListItem
+                  item={item}
+                  onContextMenu={(e) => setMenu(e, 'album', item)}
+                />
               </Link>
             ))}
           </div>
@@ -112,7 +115,10 @@ const Home = () => {
           <div className="flex gap-4 overflow-x-scroll">
             {recentlyAdded.data.map((item) => (
               <Link key={'ra_' + item.Id} to={'/album/' + item.Id}>
-                <SquareListItem item={item} />
+                <SquareListItem
+                  item={item}
+                  onContextMenu={(e) => setMenu(e, 'album', item)}
+                />
               </Link>
             ))}
           </div>

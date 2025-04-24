@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router'
 import Option from './Option'
 import Separator from './Separator'
 
-const Track = () => {
+const TrackMenu = () => {
   const menu = useMenu()
   const queue = useQueue()
   const { play } = usePlayer()
@@ -54,4 +54,4 @@ const Track = () => {
   )
 }
 
-export default Track
+export default TrackMenu
