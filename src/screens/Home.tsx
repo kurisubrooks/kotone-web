@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import useLibrary from '../hooks/useLibrary'
 import useQueue from '../hooks/useQueue'
 import usePlayer from '../hooks/usePlayer'
+import useMenu from '../hooks/useMenu'
 import useItems from '../api/useItems'
 import useLatest from '../api/useLatest'
 import SquareListItem from '../components/SquareListItem'
@@ -11,6 +12,7 @@ const Home = () => {
   const library = useLibrary()
   const queue = useQueue()
   const { play } = usePlayer()
+  const { setMenu } = useMenu()
 
   const musicView =
     library.viewIDs && 'music' in library.viewIDs ? library.viewIDs.music : null
@@ -78,6 +80,7 @@ const Home = () => {
                   queue.setQueue([item])
                   play()
                 }}
+                onContextMenu={(e) => setMenu(e, 'track', item)}
                 playing={item.Id === queue.trackID}
               />
             ))}
@@ -95,6 +98,7 @@ const Home = () => {
                   queue.setQueue([item])
                   play()
                 }}
+                onContextMenu={(e) => setMenu(e, 'track', item)}
                 playing={item.Id === queue.trackID}
               />
             ))}

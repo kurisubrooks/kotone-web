@@ -8,12 +8,15 @@ import ticksToTime from '../lib/ticksToTime'
 import TrackListItem from '../components/TrackListItem'
 import useQueue from '../hooks/useQueue'
 import usePlayer from '../hooks/usePlayer'
+import useMenu from '../hooks/useMenu'
+import { cn } from '../lib/cn'
 
 const Album = () => {
   const { album: albumParam } = useParams()
   const client = useClient()
   const queue = useQueue()
   const { play } = usePlayer()
+  const { showMenu, setMenu } = useMenu()
 
   const album = useSingleItem(albumParam)
   const { data, isLoading } = useItems({
@@ -61,7 +64,10 @@ const Album = () => {
                     height={height}
                     itemCount={data.Items.length}
                     itemSize={72}
-                    className="player-padding"
+                    className={cn(
+                      'player-padding',
+                      showMenu && 'overflow-y-hidden!',
+                    )}
                   >
                     {({ index, style }) => (
                       <TrackListItem
@@ -79,6 +85,9 @@ const Album = () => {
                           queue.setQueue(data.Items, index)
                           if (data.Items[index].Id === current) play()
                         }}
+                        onContextMenu={(e) =>
+                          setMenu(e, 'track', data.Items[index])
+                        }
                         playing={data.Items[index].Id === queue.trackID}
                       />
                     )}

@@ -4,7 +4,8 @@ import Item from 'jellyfin-api/lib/types/media/Item'
 import { Track } from '../types/ItemTypes'
 import itemToType from '../lib/itemToType'
 import storage from '../lib/storage'
-import useProgress from './usePlayer'
+import usePlayer from './usePlayer'
+import useProgress from './useProgress'
 import emitter from '../lib/emitter'
 
 interface QueueStore {
@@ -63,8 +64,8 @@ const useQueue = create<QueueStore>()(
           } else if (repeat == 'track') {
             console.log('repeat track?')
           } else {
-            emitter.emitp('seek', useProgress.getState().duration)
-            useProgress.getState().pause()
+            emitter.emitp('seek', usePlayer.getState().duration)
+            usePlayer.getState().pause()
           }
         } else {
           set((state) => ({
@@ -112,11 +113,13 @@ const useQueue = create<QueueStore>()(
         emitter.emit('pause')
       },
       addQueue: (items) => {
+        const oldLength = get().queue.length
         const tracks = items.map((item) => itemToType(item) as Track)
         set((state) => ({ queue: [...state.queue, ...tracks] }))
-        // TrackPlayer.add(items.map((item) => itemToRNTPTrack(item)))
+        if (oldLength === 0) set(() => ({ trackID: tracks[0].Id }))
       },
       nextQueue: (items) => {
+        const oldLength = get().queue.length
         const tracks = items.map((item) => itemToType(item) as Track)
         set((state) => ({
           queue: [
@@ -125,10 +128,7 @@ const useQueue = create<QueueStore>()(
             ...state.queue.slice(state.track + 1),
           ],
         }))
-        // TrackPlayer.add(
-        //   items.map((item) => itemToRNTPTrack(item)),
-        //   get().track + 1,
-        // )
+        if (oldLength === 0) set(() => ({ trackID: tracks[0].Id }))
       },
       removeQueue: (index) => {
         const newQueue = [...get().queue]

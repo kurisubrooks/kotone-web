@@ -2,15 +2,19 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router'
 import NavBar from '../components/NavBar'
 import FloatingPlayer from '../components/FloatingPlayer/FloatingPlayer'
+import AudioPlayer from '../components/AudioPlayer'
+import Menu from '../components/Menu/Menu'
 import useLibrary from '../hooks/useLibrary'
 import useSettings from '../hooks/useSettings'
+import useMenu from '../hooks/useMenu'
 import useViews from '../api/useViews'
-import AudioPlayer from '../components/AudioPlayer'
 import useItems from '../api/useItems'
+import { cn } from '../lib/cn'
 
 const Layout = () => {
   const library = useLibrary()
   const settings = useSettings()
+  const { showMenu, hideMenu } = useMenu()
 
   const views = useViews()
   useEffect(() => {
@@ -58,16 +62,33 @@ const Layout = () => {
     if (songs.data) library.setSongs(songs.data.Items)
   }, [songs.data])
 
+  useEffect(() => {
+    const handleClick = () => hideMenu()
+    const handleContext = (e: MouseEvent) => e.preventDefault()
+    document.addEventListener('click', handleClick)
+    document.addEventListener('contextmenu', handleContext)
+    return () => {
+      document.removeEventListener('click', handleClick)
+      document.addEventListener('contextmenu', handleContext)
+    }
+  }, [])
+
   return (
     <>
       <div className="flex w-full flex-col">
         <NavBar />
 
-        <div className="h-full w-full overflow-x-hidden overflow-y-scroll">
+        <div
+          className={cn(
+            'h-full w-full overflow-x-hidden',
+            !showMenu ? 'overflow-y-scroll' : 'overflow-y-hidden',
+          )}
+        >
           <Outlet />
         </div>
 
         <FloatingPlayer />
+        <Menu />
       </div>
       <AudioPlayer />
     </>
