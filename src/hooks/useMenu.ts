@@ -25,6 +25,7 @@ const useMenu = create<MenuStore>()((set, get) => ({
   data: undefined,
 
   setMenu: (event, type, data) => {
+    event.preventDefault()
     set(() => ({
       showMenu: true,
       x: Math.min(Math.max(event.pageX - 24, 16), window.innerWidth - 256 - 16),

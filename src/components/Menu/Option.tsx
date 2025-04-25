@@ -20,7 +20,7 @@ const Option = ({
   return (
     <div
       className={cn(
-        'flex h-12',
+        'flex h-12 transition',
         !disabled
           ? 'hover:cursor-pointer hover:bg-zinc-100/20'
           : 'text-zinc-100/40 hover:cursor-default',

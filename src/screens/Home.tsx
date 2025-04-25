@@ -7,6 +7,7 @@ import useItems from '../api/useItems'
 import useLatest from '../api/useLatest'
 import SquareListItem from '../components/SquareListItem'
 import TrackListItem from '../components/TrackListItem'
+import LinkedHeader from '../components/LinkedHeader'
 
 const Home = () => {
   const library = useLibrary()
@@ -26,7 +27,7 @@ const Home = () => {
       ParentId: playlistView!,
       SortBy: 'PlayCount,SortName',
       SortOrder: 'Descending',
-      Limit: 5,
+      Limit: 10,
     },
     !!playlistView,
   )
@@ -54,11 +55,11 @@ const Home = () => {
   const recentlyAdded = useLatest(musicView!, { Limit: 50 }, !!musicView)
 
   return (
-    <div className="player-padding flex flex-col gap-4 p-4">
+    <div className="player-padding flex flex-col gap-4 pt-4">
       {!playlists.isLoading && playlists.data && (
         <div className="flex flex-col gap-1">
-          <h2 className="text-2xl font-medium">Playlists</h2>
-          <div className="flex gap-4 overflow-x-scroll">
+          <LinkedHeader to="/playlists">Playlists</LinkedHeader>
+          <div className="flex gap-4 overflow-x-scroll px-4">
             {playlists.data.Items.map((item) => (
               <Link key={'playlist_' + item.Id} to={'/playlist/' + item.Id}>
                 <SquareListItem
@@ -71,48 +72,52 @@ const Home = () => {
         </div>
       )}
 
-      <div className="flex flex-col gap-4 md:flex-row">
+      <div className="flex flex-col md:flex-row">
         {!frequent.isLoading && frequent.data && (
           <div className="flex flex-1 flex-col">
-            <h2 className="text-2xl font-medium">Frequently Played</h2>
-            {frequent.data.Items.map((item, index) => (
-              <TrackListItem
-                key={'rp_' + index}
-                item={item}
-                onClick={() => {
-                  queue.setQueue([item])
-                  play()
-                }}
-                onContextMenu={(e) => setMenu(e, 'track', item)}
-                playing={item.Id === queue.trackID}
-              />
-            ))}
+            <LinkedHeader to="/">Frequently Played</LinkedHeader>
+            <div className="flex flex-col px-4">
+              {frequent.data.Items.map((item, index) => (
+                <TrackListItem
+                  key={'rp_' + index}
+                  item={item}
+                  onClick={() => {
+                    queue.setQueue([item])
+                    play()
+                  }}
+                  onContextMenu={(e) => setMenu(e, 'track', item)}
+                  playing={item.Id === queue.trackID}
+                />
+              ))}
+            </div>
           </div>
         )}
 
         {!recentlyPlayed.isLoading && recentlyPlayed.data && (
           <div className="flex flex-1 flex-col">
-            <h2 className="text-2xl font-medium">Recently Played</h2>
-            {recentlyPlayed.data.Items.map((item, index) => (
-              <TrackListItem
-                key={'rp_' + index}
-                item={item}
-                onClick={() => {
-                  queue.setQueue([item])
-                  play()
-                }}
-                onContextMenu={(e) => setMenu(e, 'track', item)}
-                playing={item.Id === queue.trackID}
-              />
-            ))}
+            <LinkedHeader to="/">Recently Played</LinkedHeader>
+            <div className="flex flex-col px-4">
+              {recentlyPlayed.data.Items.map((item, index) => (
+                <TrackListItem
+                  key={'rp_' + index}
+                  item={item}
+                  onClick={() => {
+                    queue.setQueue([item])
+                    play()
+                  }}
+                  onContextMenu={(e) => setMenu(e, 'track', item)}
+                  playing={item.Id === queue.trackID}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
 
       {!recentlyAdded.isLoading && recentlyAdded.data && (
         <div className="flex flex-col gap-1">
-          <h2 className="text-2xl font-medium">Recently Added</h2>
-          <div className="flex gap-4 overflow-x-scroll">
+          <LinkedHeader to="/">Recently Added</LinkedHeader>
+          <div className="flex gap-4 overflow-x-scroll px-4">
             {recentlyAdded.data.map((item) => (
               <Link key={'ra_' + item.Id} to={'/album/' + item.Id}>
                 <SquareListItem

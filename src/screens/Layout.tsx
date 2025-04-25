@@ -66,10 +66,12 @@ const Layout = () => {
     const handleClick = () => hideMenu()
     const handleContext = (e: MouseEvent) => e.preventDefault()
     document.addEventListener('click', handleClick)
-    document.addEventListener('contextmenu', handleContext)
+    if (process.env.NODE_ENV !== 'development')
+      document.addEventListener('contextmenu', handleContext)
     return () => {
       document.removeEventListener('click', handleClick)
-      document.addEventListener('contextmenu', handleContext)
+      if (process.env.NODE_ENV !== 'development')
+        document.addEventListener('contextmenu', handleContext)
     }
   }, [])
 

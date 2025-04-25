@@ -66,9 +66,9 @@ const AudioPlayer = () => {
         client.deviceID +
         '&maxStreamingBitrate=140000000' +
         '&container=opus,webm|opus,ts|mp3,mp3,aac,m4a|aac,m4b|aac,flac,webma,webm|webma,wav,ogg' +
-        '&transcodingContainer=ts' +
-        '&transcodingProtocol=hls' +
-        '&audioCodec=aac' +
+        '&transcodingContainer=ogg' +
+        '&transcodingProtocol=http' +
+        '&audioCodec=opus' +
         '&apiKey=' +
         client.token
       : undefined
