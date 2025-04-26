@@ -5,9 +5,11 @@ import useLibrary from '../hooks/useLibrary'
 import useQueue from '../hooks/useQueue'
 import useSearch from '../hooks/useSearch'
 import formatName from '../lib/formatName'
+import { cn } from '../lib/cn'
 import TrackListItem from '../components/TrackListItem'
 import Item from 'jellyfin-api/lib/types/media/Item'
 import usePlayer from '../hooks/usePlayer'
+import useMenu from '../hooks/useMenu'
 
 const Search = () => {
   const settings = useSettings()
@@ -15,6 +17,7 @@ const Search = () => {
   const queue = useQueue()
   const { play } = usePlayer()
   const search = useSearch()
+  const { showMenu, setMenu } = useMenu()
 
   const query = settings.useLibrary ? formatName(search.query) : search.query
   const items = library.songs
@@ -32,7 +35,10 @@ const Search = () => {
                 height={height}
                 itemCount={items.length}
                 itemSize={72}
-                className="pb-24"
+                className={cn(
+                  'player-padding',
+                  showMenu && 'overflow-y-hidden!',
+                )}
               >
                 {({ index, style }) => (
                   <TrackListItem
@@ -45,6 +51,7 @@ const Search = () => {
                       queue.setQueue([items[index]], 0)
                       if (items[index].Id === current) play()
                     }}
+                    onContextMenu={(e) => setMenu(e, 'track', items[index])}
                     playing={items[index].Id === queue.trackID}
                   />
                 )}

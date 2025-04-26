@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 import { create } from 'zustand'
 import Item from 'jellyfin-api/lib/types/media/Item'
+import { Album, Track } from '../types/ItemTypes'
 
 type Types = 'track' | 'album' | 'artist'
 
@@ -10,9 +11,9 @@ interface MenuStore {
   x: number
   y: number
   type: Types
-  data?: Item
+  data?: Item | Track | Album
 
-  setMenu: (event: MouseEvent, type: Types, data?: Item) => void
+  setMenu: (event: MouseEvent, type: Types, data?: Item | Track | Album) => void
   hideMenu: () => void
 }
 
