@@ -1,4 +1,5 @@
 import { DOMAttributes, useEffect, useRef, useState } from 'react'
+import Hls from 'hls.js'
 import useClient from '../hooks/useClient'
 import useQueue from '../hooks/useQueue'
 import emitter, { Event } from '../lib/emitter'
@@ -12,9 +13,10 @@ const AudioPlayer = () => {
   const player = usePlayer()
   const progress = useProgress()
   const settings = useSettings()
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const audio = useRef<HTMLAudioElement>(null)
   const [autoplay, setAutoplay] = useState<boolean>(false)
   const [metadata, setMetadata] = useState<MediaMetadata>()
+  const hls = new Hls()
 
   if (metadata && 'mediaSession' in navigator) {
     navigator.mediaSession.metadata = metadata
@@ -52,7 +54,7 @@ const AudioPlayer = () => {
       : 0.5
     : 1.0
   useEffect(() => {
-    if (audioRef.current) audioRef.current.volume = gain
+    if (audio.current) audio.current.volume = gain
   }, [gain])
 
   const audioSource =
@@ -60,18 +62,26 @@ const AudioPlayer = () => {
       ? client.server +
         '/Audio/' +
         queue.trackID +
-        '/universal?userId=' +
+        '/main.m3u8?userId=' +
         client.user +
         '&deviceId=' +
         client.deviceID +
         '&maxStreamingBitrate=140000000' +
         '&container=opus,webm|opus,ts|mp3,mp3,aac,m4a|aac,m4b|aac,flac,webma,webm|webma,wav,ogg' +
-        '&transcodingContainer=ogg' +
-        '&transcodingProtocol=http' +
-        '&audioCodec=opus' +
+        '&transcodingContainer=ts' +
+        '&transcodingProtocol=hls' +
+        '&audioCodec=copy' +
+        '&SegmentContainer=mp4' +
         '&apiKey=' +
         client.token
       : undefined
+
+  useEffect(() => {
+    if (audioSource) {
+      hls.loadSource(audioSource)
+      hls.attachMedia(audio.current!)
+    }
+  }, [audioSource])
 
   useEffect(() => {
     emitter.on('play', event)
@@ -85,11 +95,11 @@ const AudioPlayer = () => {
   }, [])
 
   const event = (event: Event) => {
-    if (event === 'play') audioRef.current?.play()
-    if (event === 'pause') audioRef.current?.pause()
+    if (event === 'play') audio.current?.play()
+    if (event === 'pause') audio.current?.pause()
   }
   const seek = (payload: number) => {
-    if (audioRef.current) audioRef.current.currentTime = payload
+    if (audio.current) audio.current.currentTime = payload
   }
 
   const audioEvents: DOMAttributes<HTMLAudioElement> = {
@@ -125,8 +135,8 @@ const AudioPlayer = () => {
 
   return (
     <audio
-      ref={audioRef}
-      src={audioSource}
+      ref={audio}
+      // src={audioSource}
       preload="auto"
       autoPlay={autoplay}
       loop={queue.repeat === 'track'}
