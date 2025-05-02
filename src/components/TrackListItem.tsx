@@ -5,12 +5,14 @@ import ticksToTime from '../lib/ticksToTime'
 import Icon from './Icon'
 import { getBlurHashAverageColor } from 'fast-blurhash'
 import tinycolor from 'tinycolor2'
+import useFavItem from '../api/useFavItem'
 
 interface Props {
   item: Item
   showAlbumArt?: boolean
   showArtist?: boolean
   showDuration?: boolean
+  showLike?: boolean | string
   trackNumber?: boolean
   playing?: boolean
   style?: CSSProperties
@@ -23,6 +25,7 @@ const TrackListItem = ({
   showAlbumArt = true,
   showArtist = true,
   showDuration = true,
+  showLike = false,
   trackNumber = false,
   playing = false,
   style,
@@ -30,6 +33,10 @@ const TrackListItem = ({
   onContextMenu,
 }: Props) => {
   const client = useClient()
+  const favItem = useFavItem(
+    item.Id,
+    typeof showLike === 'string' ? showLike : item.AlbumId,
+  )
 
   const image =
     'Primary' in item.ImageTags
@@ -101,6 +108,19 @@ const TrackListItem = ({
             </div>
           )}
         </div>
+        {showLike && (
+          <div className="flex items-center">
+            <Icon
+              icon="favorite"
+              filled={item.UserData.IsFavorite}
+              className="hover:bg-highlight rounded-full p-2 transition"
+              onClick={(e) => {
+                favItem.mutate(item.UserData.IsFavorite)
+                e.stopPropagation()
+              }}
+            />
+          </div>
+        )}
         {showDuration && (
           <div className="flex items-center pr-4">
             {ticksToTime(item.RunTimeTicks)}

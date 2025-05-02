@@ -78,6 +78,7 @@ const Album = () => {
                           data.Items[index].Artists.join() !==
                             album.data.AlbumArtist
                         }
+                        showLike={playlist ? albumParam : true}
                         trackNumber={!playlist}
                         style={style}
                         onClick={() => {
