@@ -1,20 +1,36 @@
 import { useEffect } from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import NavBar from '../components/NavBar'
 import FloatingPlayer from '../components/FloatingPlayer/FloatingPlayer'
 import AudioPlayer from '../components/AudioPlayer'
 import Menu from '../components/Menu/Menu'
 import useLibrary from '../hooks/useLibrary'
 import useSettings from '../hooks/useSettings'
+import useQueue from '../hooks/useQueue'
 import useMenu from '../hooks/useMenu'
 import useViews from '../api/useViews'
 import useItems from '../api/useItems'
 import { cn } from '../lib/cn'
+import { Blurhash } from 'react-blurhash'
 
 const Layout = () => {
   const library = useLibrary()
   const settings = useSettings()
+  const queue = useQueue()
   const { showMenu, hideMenu } = useMenu()
+  const location = useLocation()
+  const playerScreen = location.pathname.split('/')[1] === 'player'
+
+  const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
+  const blurhash = track
+    ? 'Primary' in track.ImageBlurHashes
+      ? track.ImageBlurHashes.Primary[
+          'Primary' in track.ImageTags
+            ? track.ImageTags.Primary
+            : track.AlbumPrimaryImageTag
+        ]
+      : null
+    : null
 
   const views = useViews()
   useEffect(() => {
@@ -77,7 +93,25 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col">
+      <div
+        className={cn('flex w-full flex-col', !playerScreen && 'bg-primary')}
+      >
+        {playerScreen && (
+          <div className="absolute -z-100 h-screen w-full bg-zinc-900">
+            {blurhash && (
+              <>
+                <div className="absolute -z-90 h-screen w-full bg-zinc-900/20" />
+                <Blurhash
+                  hash={blurhash}
+                  width="100%"
+                  height="100%"
+                  className="-z-100"
+                />
+              </>
+            )}
+          </div>
+        )}
+
         <NavBar />
 
         <div

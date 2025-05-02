@@ -18,6 +18,7 @@ import Layout from './screens/Layout'
 import Home from './screens/Home'
 import Album from './screens/Album'
 import Search from './screens/Search'
+import Player from './screens/Player'
 import NotFound from './screens/NotFound'
 
 const queryClient = new QueryClient()
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="artist/:artist" element={<Artist />} />
             <Route path="songs" element={<SongList />} /> */}
             <Route path="search" element={<Search />} />
+            <Route path="player" element={<Player />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 

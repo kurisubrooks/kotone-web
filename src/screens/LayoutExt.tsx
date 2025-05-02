@@ -12,6 +12,7 @@ const LayoutExt = () => {
   const location = useLocation()
   const { server: serverParam } = useParams()
   const { browser } = UAParser(window.navigator.userAgent)
+  const playerScreen = location.pathname.split('/')[1] === 'player'
 
   useEffect(() => {
     if (client.hasHydrated) {
@@ -58,8 +59,8 @@ const LayoutExt = () => {
   return (
     <div
       className={cn(
-        'bg-primary text-primary flex h-screen',
-        settings.dark && 'dark',
+        'text-primary flex h-screen',
+        (settings.dark || playerScreen) && 'dark',
       )}
     >
       <Outlet />

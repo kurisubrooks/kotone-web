@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react'
 import { Blurhash } from 'react-blurhash'
+import { useLocation, useNavigate } from 'react-router'
 import useClient from '../../hooks/useClient'
 import useQueue from '../../hooks/useQueue'
 import useProgress from '../../hooks/usePlayer'
@@ -10,6 +11,8 @@ const FloatingPlayer = () => {
   const client = useClient()
   const queue = useQueue()
   const player = useProgress()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
   const image = track
@@ -34,7 +37,7 @@ const FloatingPlayer = () => {
 
   return (
     <AnimatePresence>
-      {track && (
+      {track && location.pathname.split('/')[1] !== 'player' && (
         <motion.div
           className="absolute bottom-4 flex w-full justify-center"
           initial={{ y: 16, opacity: 0 }}
@@ -43,6 +46,9 @@ const FloatingPlayer = () => {
           transition={{
             duration: 0.1,
             easings: ['easeIn', 'easeOut'],
+          }}
+          onClick={() => {
+            navigate('/player')
           }}
         >
           <div className="player-width round pointer-events-none absolute z-10 h-full overflow-hidden bg-zinc-900">
@@ -66,7 +72,7 @@ const FloatingPlayer = () => {
               </div>
               <div className="flex flex-col justify-center">
                 <div className="text-xl font-medium">{track?.Name}</div>
-                <div className="text-zinc-100/70">
+                <div className="text-zinc-100/60">
                   {track?.Artists.join(', ')}
                 </div>
               </div>
@@ -74,28 +80,32 @@ const FloatingPlayer = () => {
             <div className="flex px-4">
               <Button
                 icon="skip_previous"
-                onClick={() => {
+                onClick={(e) => {
                   queue.prevTrack()
+                  e.stopPropagation()
                 }}
                 show="sm"
               />
               <Button
                 icon={player.isPlaying ? 'pause' : 'play_arrow'}
-                onClick={() => {
+                onClick={(e) => {
                   player.playpause()
+                  e.stopPropagation()
                 }}
               />
               <Button
                 icon="stop"
-                onClick={() => {
+                onClick={(e) => {
                   queue.clearQueue()
+                  e.stopPropagation()
                 }}
                 show="md"
               />
               <Button
                 icon="skip_next"
-                onClick={() => {
+                onClick={(e) => {
                   queue.nextTrack()
+                  e.stopPropagation()
                 }}
               />
             </div>
