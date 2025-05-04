@@ -4,6 +4,7 @@ import usePlayer from '../../hooks/usePlayer'
 import { useNavigate } from 'react-router'
 import Option from './Option'
 import Separator from './Separator'
+import { Track } from '../../types/ItemTypes'
 
 const TrackMenu = () => {
   const menu = useMenu()
@@ -11,7 +12,7 @@ const TrackMenu = () => {
   const { play } = usePlayer()
   const navigate = useNavigate()
 
-  const track = menu.data!
+  const track = menu.data! as Track
 
   return (
     <div className="relative z-100 flex flex-col bg-zinc-900/20">
@@ -38,6 +39,7 @@ const TrackMenu = () => {
           queue.addQueue([track])
         }}
       />
+      <Option text="Instant Mix" icon="album" disabled />
       {/* <Option text="Remove from queue" icon="playlist_remove" /> */}
       <Separator />
       <Option text="Add to Playlist" icon="playlist_add" disabled />

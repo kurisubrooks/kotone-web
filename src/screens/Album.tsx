@@ -10,6 +10,7 @@ import useQueue from '../hooks/useQueue'
 import usePlayer from '../hooks/usePlayer'
 import useMenu from '../hooks/useMenu'
 import { cn } from '../lib/cn'
+import Button from '../components/Button'
 
 const Album = () => {
   const { album: albumParam } = useParams()
@@ -24,6 +25,9 @@ const Album = () => {
     SortBy: 'ParentIndexNumber,IndexNumber,Name',
     Fields: 'MediaSources',
   })
+  const liked = data
+    ? data.Items.filter((track) => track.UserData.IsFavorite)
+    : undefined
 
   const playlist = album.data?.Type === 'Playlist'
   const image = client.server + '/Items/' + albumParam + '/Images/Primary'
@@ -43,16 +47,69 @@ const Album = () => {
               <div className="text-secondary text-2xl font-medium">
                 {album.data.AlbumArtist}
               </div>
-              <div className="flex gap-4">
-                <div>
-                  {album.data.ChildCount +
-                    ' song' +
-                    (album.data.ChildCount !== 1 ? 's' : '')}
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex gap-4">
+                  <div>
+                    {album.data.ChildCount +
+                      ' track' +
+                      (album.data.ChildCount !== 1 ? 's' : '')}
+                  </div>
+                  <div>{ticksToTime(album.data.RunTimeTicks, true)}</div>
+                  {'ProductionYear' in album.data && (
+                    <div>{album.data.ProductionYear}</div>
+                  )}
                 </div>
-                <div>{ticksToTime(album.data.RunTimeTicks, true)}</div>
-                {'ProductionYear' in album.data && (
-                  <div>{album.data.ProductionYear}</div>
-                )}
+                <div className="flex gap-2">
+                  <Button
+                    icon="play_arrow"
+                    filled
+                    onClick={() => {
+                      queue.setQueue(data.Items)
+                      play()
+                    }}
+                  >
+                    Play {playlist ? 'Playlist' : 'Album'}
+                  </Button>
+                  <Button
+                    icon="shuffle"
+                    onClick={() => {
+                      queue.setQueue(
+                        [...data!.Items].sort(() => Math.random() - 0.5),
+                      )
+                      play()
+                    }}
+                  >
+                    Shuffle {playlist ? 'Playlist' : 'Album'}
+                  </Button>
+                  {liked && (
+                    <Button
+                      icon="favorite"
+                      filled
+                      size={20}
+                      onClick={() => {
+                        queue.setQueue(liked)
+                        play()
+                      }}
+                    >
+                      Play Liked
+                    </Button>
+                  )}
+                  {liked && (
+                    <Button
+                      icon="shuffle"
+                      filled
+                      size={20}
+                      onClick={() => {
+                        queue.setQueue(
+                          [...liked].sort(() => Math.random() - 0.5),
+                        )
+                        play()
+                      }}
+                    >
+                      Shuffle Liked
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
 

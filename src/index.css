@@ -58,6 +58,13 @@
   }
 }
 
+@utility bg-button {
+  @apply bg-pink-400/20 hover:bg-pink-300;
+  @variant dark {
+    @apply bg-pink-700/20 hover:bg-pink-700;
+  }
+}
+
 @utility player-width {
   @apply w-full sm:w-lg md:w-xl lg:w-3xl xl:w-5xl;
 }
