@@ -47,8 +47,8 @@ const Album = () => {
               <div className="text-secondary text-2xl font-medium">
                 {album.data.AlbumArtist}
               </div>
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex gap-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex flex-wrap gap-4">
                   <div>
                     {album.data.ChildCount +
                       ' track' +
@@ -59,7 +59,7 @@ const Album = () => {
                     <div>{album.data.ProductionYear}</div>
                   )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button
                     icon="play_arrow"
                     filled
@@ -81,7 +81,7 @@ const Album = () => {
                   >
                     Shuffle {playlist ? 'Playlist' : 'Album'}
                   </Button>
-                  {liked && (
+                  {liked && liked.length > 0 && (
                     <Button
                       icon="favorite"
                       filled
@@ -94,11 +94,10 @@ const Album = () => {
                       Play Liked
                     </Button>
                   )}
-                  {liked && (
+                  {liked && liked.length > 0 && (
                     <Button
                       icon="shuffle"
                       filled
-                      size={20}
                       onClick={() => {
                         queue.setQueue(
                           [...liked].sort(() => Math.random() - 0.5),

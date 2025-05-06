@@ -38,6 +38,7 @@ const itemToType = (item: Item | Track): Track | Album | Playlist | Item => {
           : 'MediaSources' in item
             ? item.MediaSources[0].Container
             : undefined,
+      UserData: 'UserData' in item && item.UserData ? item.UserData : undefined,
     }
     return result
   } else if (item.Type === 'MusicAlbum') {

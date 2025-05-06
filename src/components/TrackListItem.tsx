@@ -6,6 +6,8 @@ import Icon from './Icon'
 import { getBlurHashAverageColor } from 'fast-blurhash'
 import tinycolor from 'tinycolor2'
 import useFavItem from '../api/useFavItem'
+import { cn } from '../lib/cn'
+import { DraggableProvided } from '@hello-pangea/dnd'
 
 interface Props {
   item: Item
@@ -15,6 +17,8 @@ interface Props {
   showLike?: boolean | string
   trackNumber?: boolean
   playing?: boolean
+  provided?: DraggableProvided
+  dragging?: boolean
   style?: CSSProperties
   onClick?: MouseEventHandler<HTMLDivElement>
   onContextMenu?: MouseEventHandler<HTMLDivElement>
@@ -28,6 +32,8 @@ const TrackListItem = ({
   showLike = false,
   trackNumber = false,
   playing = false,
+  provided,
+  dragging = false,
   style,
   onClick,
   onContextMenu,
@@ -71,12 +77,17 @@ const TrackListItem = ({
   const [focus, setFocus] = useState<boolean>(false)
 
   return (
-    <div style={style} className="flex h-18 w-full py-1">
+    <div
+      style={style}
+      className={cn('flex h-18 w-full py-1', dragging && 'text-w')}
+      ref={provided ? provided.innerRef : undefined}
+      {...provided?.draggableProps}
+    >
       <div
         className="round group flex h-16 w-full gap-4 py-1 transition hover:cursor-pointer"
         onClick={onClick}
         onContextMenu={onContextMenu}
-        style={focus ? hoverStyle : {}}
+        style={focus || dragging ? hoverStyle : {}}
         onMouseEnter={() => setFocus(true)}
         onMouseLeave={() => setFocus(false)}
       >
@@ -101,7 +112,12 @@ const TrackListItem = ({
         <div className="flex flex-1 flex-col justify-center">
           <div className="line-clamp-1 font-medium">{item.Name}</div>
           {showArtist && (
-            <div className="text-secondary line-clamp-1">
+            <div
+              className={cn(
+                'line-clamp-1',
+                dragging ? 'text-zinc-100/60' : 'text-secondary',
+              )}
+            >
               {item.Type === 'MusicAlbum'
                 ? item.AlbumArtist
                 : item.Artists.join(', ')}
@@ -122,8 +138,19 @@ const TrackListItem = ({
           </div>
         )}
         {showDuration && (
-          <div className="flex items-center pr-4">
+          <div className={cn('flex items-center', !provided && 'pr-4')}>
             {ticksToTime(item.RunTimeTicks)}
+          </div>
+        )}
+        {provided && (
+          <div
+            className="flex w-12 items-center justify-center hover:cursor-grab"
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
+            {...provided?.dragHandleProps}
+          >
+            <Icon icon="reorder" />
           </div>
         )}
       </div>

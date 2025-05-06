@@ -5,6 +5,7 @@ import usePlayer from '../hooks/usePlayer'
 import useDimensions from '../hooks/useDimensions'
 import LargeButton from '../components/Player/LargeButton'
 import Progress from '../components/Player/Progress'
+import Queue from './Queue'
 
 const Player = () => {
   const client = useClient()
@@ -24,7 +25,7 @@ const Player = () => {
   const maxImageSize = Math.min(width / 2, (height / 10) * 4.5)
 
   return track ? (
-    <div className="text-w flex flex-row">
+    <div className="text-w flex h-full flex-row">
       <div className="flex flex-1 flex-col items-center p-4">
         <div
           className="flex flex-col justify-between gap-4"
@@ -69,7 +70,9 @@ const Player = () => {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col">Queue</div>
+      <div className="flex flex-1 flex-col">
+        <Queue />
+      </div>
     </div>
   ) : (
     <div></div>

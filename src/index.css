@@ -39,9 +39,9 @@
   }
 }
 @utility text-secondary {
-  @apply text-zinc-900/70;
+  @apply text-zinc-900/60;
   @variant dark {
-    @apply text-zinc-100/70;
+    @apply text-zinc-100/60;
   }
 }
 @utility text-w {

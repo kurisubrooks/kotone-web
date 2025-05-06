@@ -1,3 +1,5 @@
+import UserData from 'jellyfin-api/lib/types/users/UserData'
+
 type Base = {
   Name: string
   Search?: string
@@ -22,6 +24,7 @@ export type Track = Base & {
   NormalizationGain: number
   Bitrate?: number
   Container?: string
+  UserData?: UserData
 }
 
 export type Album = Base & {
