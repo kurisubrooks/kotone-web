@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useClient from '../hooks/useClient'
+import useQueue from '../hooks/useQueue'
 import { users } from 'jellyfin-api'
 import Item from 'jellyfin-api/lib/types/media/Item'
 import ItemsList from 'jellyfin-api/lib/types/media/ItemsList'
@@ -7,6 +8,7 @@ import ItemsList from 'jellyfin-api/lib/types/media/ItemsList'
 const useFavItem = (itemId: string, albumId: string) => {
   const client = useClient()
   const queryClient = useQueryClient()
+  const { like } = useQueue()
 
   return useMutation({
     mutationFn: (del?: boolean) => {
@@ -29,6 +31,7 @@ const useFavItem = (itemId: string, albumId: string) => {
           return newData
         },
       )
+      like(itemId, data.IsFavorite)
     },
   })
 }

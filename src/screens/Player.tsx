@@ -1,9 +1,8 @@
-import Icon from '../components/Icon'
 import useClient from '../hooks/useClient'
 import useQueue from '../hooks/useQueue'
 import usePlayer from '../hooks/usePlayer'
 import useDimensions from '../hooks/useDimensions'
-import LargeButton from '../components/Player/LargeButton'
+import Button from '../components/Player/Button'
 import Progress from '../components/Player/Progress'
 import Queue from './Queue'
 
@@ -28,10 +27,9 @@ const Player = () => {
     <div className="text-w flex h-full flex-row">
       <div className="flex flex-1 flex-col items-center p-4">
         <div
-          className="flex flex-col justify-between gap-4"
+          className="flex flex-1 flex-col gap-4"
           style={{
             maxWidth: maxImageSize,
-            maxHeight: maxImageSize,
           }}
         >
           <img
@@ -44,28 +42,48 @@ const Player = () => {
           />
 
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold">{track.Name}</h1>
-            <h2 className="text-2xl font-medium text-zinc-100/60">
+            <h1 className="line-clamp-2 text-3xl font-bold">{track.Name}</h1>
+            <h2 className="line-clamp-2 text-2xl font-medium text-zinc-100/60">
               {track.Artists.join(', ')}
             </h2>
             {track.Name !== track.Album && (
-              <h3 className="text-2xl text-zinc-100/60">{track.Album}</h3>
+              <h3 className="line-clamp-2 text-lg font-medium text-zinc-100/60">
+                {track.Album}
+              </h3>
             )}
           </div>
 
-          <Progress />
+          <div className="flex flex-1 flex-col justify-between">
+            <Progress />
 
-          <div className="flex flex-row items-center justify-evenly">
-            <LargeButton
-              icon="skip_previous"
-              onClick={() => queue.prevTrack()}
-            />
-            <LargeButton
-              icon={player.isPlaying ? 'pause' : 'play_arrow'}
-              large
-              onClick={() => player.playpause()}
-            />
-            <LargeButton icon="skip_next" onClick={() => queue.nextTrack()} />
+            <div className="flex flex-row items-center justify-evenly">
+              <Button
+                icon="skip_previous"
+                size={48}
+                filled
+                onClick={() => queue.prevTrack()}
+              />
+              <Button
+                icon={player.isPlaying ? 'pause' : 'play_arrow'}
+                size={72}
+                filled
+                onClick={() => player.playpause()}
+              />
+              <Button
+                icon="skip_next"
+                size={48}
+                filled
+                onClick={() => queue.nextTrack()}
+              />
+            </div>
+
+            <div className="flex flex-row items-center justify-evenly">
+              <Button
+                icon={queue.repeat === 'track' ? 'repeat_one' : 'repeat'}
+                off={queue.repeat === 'off'}
+                onClick={() => queue.cycleRepeat()}
+              />
+            </div>
           </div>
         </div>
       </div>

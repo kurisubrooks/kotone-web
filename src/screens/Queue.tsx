@@ -41,7 +41,7 @@ const Row = ({ data, index, style }: RowProps) => {
       {(provided) => (
         <TrackListItem
           item={data[index] as Item}
-          showLike={false}
+          showLike
           provided={provided}
           style={style}
           onClick={() => {
@@ -49,6 +49,7 @@ const Row = ({ data, index, style }: RowProps) => {
           }}
           onContextMenu={(e) => setMenu(e, 'track', data[index])}
           playing={track === index}
+          index={index}
         />
       )}
     </Draggable>

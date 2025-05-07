@@ -13,7 +13,8 @@ const Menu = () => {
       ? item.ImageBlurHashes.Primary[
           'Primary' in item.ImageTags
             ? item.ImageTags.Primary
-            : item.AlbumPrimaryImageTag
+            : // @ts-expect-error who care
+              item.AlbumPrimaryImageTag
         ]
       : null
     : null

@@ -27,6 +27,8 @@ interface QueueStore {
   nextQueue: (items: Item[] | Track[]) => void
   removeQueue: (index: number) => void
 
+  like: (ID: string, like: boolean) => void
+
   hasHydrated: boolean
   setHasHydrated: (state: boolean) => void
 }
@@ -61,6 +63,7 @@ const useQueue = create<QueueStore>()(
         if (current === length - 1) {
           if (repeat === 'queue') {
             set((state) => ({ track: 0, trackId: state.queue[0].Id }))
+            emitter.emit('play')
           } else if (repeat == 'track') {
             console.log('repeat track?')
           } else {
@@ -131,21 +134,32 @@ const useQueue = create<QueueStore>()(
         if (oldLength === 0) set(() => ({ trackID: tracks[0].Id }))
       },
       removeQueue: (index) => {
+        const track = get().track
         const newQueue = [...get().queue]
         newQueue.splice(index, 1)
         set(() => ({ queue: newQueue }))
-        // TrackPlayer.remove(index)
-        if (get().track >= newQueue.length - 1 && newQueue.length > 0) {
+        if (track >= newQueue.length - 1 && newQueue.length > 0) {
           set(() => ({
             track: 0,
             trackID: newQueue[0].Id,
           }))
-          //TrackPlayer.skip(newQueue.length - 1)
-        } else if (index < get().track) {
+        } else if (index < track) {
           set(() => ({
-            track: get().track - 1,
-            trackID: newQueue[get().track - 1].Id,
+            track: track - 1,
+            trackID: newQueue[track - 1].Id,
           }))
+        }
+      },
+
+      like: (ID, like) => {
+        const queue = get().queue
+        const indexes = queue
+          .map((track, index) => (track.Id === ID ? index : -1))
+          .filter((index) => index !== -1)
+        for (let i = 0; i < indexes.length; i++) {
+          if ('UserData' in queue[indexes[i]] && queue[indexes[i]].UserData) {
+            queue[indexes[i]].UserData!.IsFavorite = like
+          }
         }
       },
 

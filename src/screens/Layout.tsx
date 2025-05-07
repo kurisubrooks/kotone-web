@@ -38,7 +38,6 @@ const Layout = () => {
       library.setViews(views.data)
       const ids = {}
       for (let i = 0; i < views.data.length; i++) {
-        // @ts-expect-error won't be undefined
         ids[views.data[i].CollectionType] = views.data[i].Id
       }
       library.setViewIDs(ids)

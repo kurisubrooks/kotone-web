@@ -8,6 +8,7 @@ import tinycolor from 'tinycolor2'
 import useFavItem from '../api/useFavItem'
 import { cn } from '../lib/cn'
 import { DraggableProvided } from '@hello-pangea/dnd'
+import useQueue from '../hooks/useQueue'
 
 interface Props {
   item: Item
@@ -19,6 +20,7 @@ interface Props {
   playing?: boolean
   provided?: DraggableProvided
   dragging?: boolean
+  index?: number
   style?: CSSProperties
   onClick?: MouseEventHandler<HTMLDivElement>
   onContextMenu?: MouseEventHandler<HTMLDivElement>
@@ -34,11 +36,13 @@ const TrackListItem = ({
   playing = false,
   provided,
   dragging = false,
+  index,
   style,
   onClick,
   onContextMenu,
 }: Props) => {
   const client = useClient()
+  const queue = useQueue()
   const favItem = useFavItem(
     item.Id,
     typeof showLike === 'string' ? showLike : item.AlbumId,
@@ -84,7 +88,7 @@ const TrackListItem = ({
       style={{ ...provided?.draggableProps.style, ...style }}
     >
       <div
-        className="round group flex h-16 w-full gap-4 py-1 transition hover:cursor-pointer"
+        className="round group flex h-16 w-full py-1 transition hover:cursor-pointer"
         onClick={onClick}
         onContextMenu={onContextMenu}
         style={focus || dragging ? hoverStyle : {}}
@@ -97,7 +101,7 @@ const TrackListItem = ({
           </div>
         )}
         {showAlbumArt && !trackNumber && (
-          <div className="relative flex w-16 items-center justify-center">
+          <div className="relative mr-4 flex w-16 items-center justify-center">
             <img
               src={image!}
               className="round aspect-square h-16 w-16 object-cover transition group-hover:brightness-125"
@@ -125,7 +129,7 @@ const TrackListItem = ({
           )}
         </div>
         {showLike && (
-          <div className="flex items-center">
+          <div className="flex w-12 items-center">
             <Icon
               icon="favorite"
               filled={item.UserData.IsFavorite}
@@ -138,8 +142,20 @@ const TrackListItem = ({
           </div>
         )}
         {showDuration && (
-          <div className={cn('flex items-center', !provided && 'pr-4')}>
+          <div className="mx-4 flex items-center">
             {ticksToTime(item.RunTimeTicks)}
+          </div>
+        )}
+        {index !== undefined && (
+          <div className="flex items-center">
+            <Icon
+              icon="close"
+              className="hover:bg-highlight rounded-full p-2 transition"
+              onClick={(e) => {
+                queue.removeQueue(index)
+                e.stopPropagation()
+              }}
+            />
           </div>
         )}
         {provided && (
