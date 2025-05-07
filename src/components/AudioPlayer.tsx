@@ -6,6 +6,7 @@ import emitter, { Event } from '../lib/emitter'
 import usePlayer from '../hooks/usePlayer'
 import useProgress from '../hooks/useProgress'
 import useSettings from '../hooks/useSettings'
+import { Track } from '../types/ItemTypes'
 
 const AudioPlayer = () => {
   const client = useClient()
@@ -61,7 +62,7 @@ const AudioPlayer = () => {
     queue.queue.length > 0
       ? client.server +
         '/Audio/' +
-        queue.trackID +
+        track.Id +
         '/main.m3u8?userId=' +
         client.user +
         '&deviceId=' +
