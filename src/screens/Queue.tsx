@@ -35,8 +35,8 @@ const Row = ({ data, index, style }: RowProps) => {
   return (
     <Draggable
       draggableId={data[index].Id + '_' + index}
-      index={index}
       key={data[index].Id + '_' + index}
+      index={index}
     >
       {(provided) => (
         <TrackListItem
@@ -67,7 +67,6 @@ const Queue = () => {
       return
     }
 
-    console.log('queue move', result.source.index, result.destination.index)
     queue.moveQueue(result.source.index, result.destination.index)
   }
 
@@ -81,7 +80,7 @@ const Queue = () => {
               <Droppable
                 droppableId="queue"
                 mode="virtual"
-                renderClone={(provided, snapshot, rubric) => (
+                renderClone={(provided, _snapshot, rubric) => (
                   <TrackListItem
                     item={queue.queue[rubric.source.index] as Item}
                     showLike={false}
@@ -91,15 +90,11 @@ const Queue = () => {
                   />
                 )}
               >
-                {(provided, snapshot) => (
+                {(provided) => (
                   <FixedSizeList
                     width={width}
                     height={height}
-                    itemCount={
-                      snapshot.isUsingPlaceholder
-                        ? queue.queue.length + 1
-                        : queue.queue.length
-                    }
+                    itemCount={queue.queue.length}
                     itemSize={72}
                     className={cn('pb-4', showMenu && 'overflow-y-hidden!')}
                     outerRef={provided.innerRef}

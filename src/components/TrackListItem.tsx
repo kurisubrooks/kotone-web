@@ -78,10 +78,10 @@ const TrackListItem = ({
 
   return (
     <div
-      style={style}
       className={cn('flex h-18 w-full py-1', dragging && 'text-w')}
       ref={provided ? provided.innerRef : undefined}
       {...provided?.draggableProps}
+      style={{ ...provided?.draggableProps.style, ...style }}
     >
       <div
         className="round group flex h-16 w-full gap-4 py-1 transition hover:cursor-pointer"
