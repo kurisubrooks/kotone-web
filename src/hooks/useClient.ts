@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import axios, { AxiosInstance } from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import { Client } from 'jellyfin-api'
 import storage from '../lib/storage'
 
@@ -25,6 +26,7 @@ interface ClientStore {
   signout: () => void
   clear: () => void
   setName: (name: string) => void
+  setDeviceID: (ID: string) => void
 
   hasHydrated: boolean
   setHasHydrated: (state: boolean) => void
@@ -86,6 +88,7 @@ const useClient = create<ClientStore>()(
           token: null,
         })),
       setName: (name) => set(() => ({ name: name })),
+      setDeviceID: (ID) => set(() => ({ deviceID: ID })),
 
       hasHydrated: false,
       setHasHydrated: (state) => set(() => ({ hasHydrated: state })),
@@ -94,7 +97,10 @@ const useClient = create<ClientStore>()(
       name: 'client',
       storage: createJSONStorage(() => storage),
       onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true)
+        state.setHasHydrated(true)
+        if (!state.deviceID) {
+          state.setDeviceID('kotone-web_' + uuidv4())
+        }
       },
     },
   ),

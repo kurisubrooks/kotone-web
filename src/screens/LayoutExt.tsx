@@ -13,6 +13,9 @@ const LayoutExt = () => {
   const { server: serverParam } = useParams()
   const { browser } = UAParser(window.navigator.userAgent)
   const playerScreen = location.pathname.split('/')[1] === 'player'
+  const setupScreen =
+    location.pathname.split('/')[1] === 'server' ||
+    location.pathname.split('/')[1] === 'signin'
 
   useEffect(() => {
     if (client.hasHydrated) {
@@ -42,7 +45,7 @@ const LayoutExt = () => {
   const resetClient = async () => {
     const clientName = 'Kotone Web'
     const deviceName = browser.name ?? 'Unknown'
-    const deviceID = 'kotone-web_'
+    const deviceID = client.deviceID
     const clientVer = '1.0.0'
     client.setClient({
       server: client.server!,
@@ -60,7 +63,7 @@ const LayoutExt = () => {
     <div
       className={cn(
         'text-primary flex h-screen',
-        (settings.dark || playerScreen) && 'dark',
+        (settings.dark || playerScreen || setupScreen) && 'dark',
       )}
     >
       <Outlet />

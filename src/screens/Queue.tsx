@@ -84,8 +84,9 @@ const Queue = () => {
                 renderClone={(provided, _snapshot, rubric) => (
                   <TrackListItem
                     item={queue.queue[rubric.source.index] as Item}
-                    showLike={false}
+                    showLike
                     provided={provided}
+                    index={rubric.source.index}
                     dragging
                     playing={queue.track === rubric.source.index}
                   />

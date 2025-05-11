@@ -63,7 +63,7 @@ const Server = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="bg-primary flex w-full items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="text-w round flex flex-col items-start gap-2 bg-pink-800/40 p-4"

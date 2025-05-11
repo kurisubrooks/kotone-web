@@ -35,7 +35,7 @@ const Signin = () => {
 
     const clientName = 'Kotone Web'
     const deviceName = browser.name ?? 'Unknown'
-    const deviceID = 'kotone-web_'
+    const deviceID = client.deviceID
     const clientVer = '1.0.0'
 
     users
@@ -88,7 +88,7 @@ const Signin = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="bg-primary flex w-full items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="text-w round flex flex-col items-start gap-2 bg-pink-800/40 p-4"
