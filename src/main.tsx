@@ -41,7 +41,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="artist/:artist" element={<Artist />} />
             <Route path="songs" element={<SongList />} /> */}
             <Route path="search" element={<Search />} />
-            <Route path="player" element={<Player />} />
+            <Route path="player/:screen?" element={<Player />} />
             <Route path="*" element={<NotFound />} />
           </Route>
 

@@ -93,10 +93,13 @@ const Layout = () => {
   return (
     <>
       <div
-        className={cn('flex w-full flex-col', !playerScreen && 'bg-primary')}
+        className={cn(
+          'flex w-full flex-col overflow-hidden',
+          !playerScreen && 'bg-primary',
+        )}
       >
         {playerScreen && (
-          <div className="absolute -z-100 h-screen w-full bg-zinc-900">
+          <div className="absolute -z-100 h-screen w-full overflow-hidden bg-zinc-900">
             {blurhash && (
               <>
                 <div className="absolute -z-90 h-screen w-full bg-zinc-900/20" />

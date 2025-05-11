@@ -1,18 +1,34 @@
+import { useNavigate, useParams } from 'react-router'
 import useClient from '../hooks/useClient'
 import useQueue from '../hooks/useQueue'
 import usePlayer from '../hooks/usePlayer'
 import useDimensions from '../hooks/useDimensions'
+import useFavItem from '../api/useFavItem'
+import useLyrics from '../api/useLyrics'
 import Button from '../components/Player/Button'
 import Progress from '../components/Player/Progress'
 import Queue from './Queue'
+import Lyrics from './Lyrics'
+import useMenu from '../hooks/useMenu'
 
 const Player = () => {
   const client = useClient()
   const queue = useQueue()
   const player = usePlayer()
   const { width, height } = useDimensions()
+  const navigate = useNavigate()
+  const { screen } = useParams()
+  const { setMenu } = useMenu()
 
   const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
+  const favorite = track && track.UserData.IsFavorite
+  const favItem = useFavItem(
+    track ? track.Id : undefined,
+    track ? track.AlbumId : undefined,
+  )
+  const lyrics = useLyrics(track ? track.Id : undefined, !!track)
+  const timedLyrics = lyrics.data ? 'Start' in lyrics.data.Lyrics[0] : false
+
   const image = track
     ? 'Primary' in track.ImageTags
       ? client.server + '/Items/' + track.Id + '/Images/Primary'
@@ -20,7 +36,6 @@ const Player = () => {
         ? client.server + '/Items/' + track.AlbumId + '/Images/Primary'
         : null
     : null
-
   const maxImageSize = Math.min(width / 2, (height / 10) * 4.5)
 
   return track ? (
@@ -78,10 +93,32 @@ const Player = () => {
             </div>
 
             <div className="flex flex-row items-center justify-evenly">
+              {screen === 'lyrics' ? (
+                <Button
+                  icon="queue_music"
+                  onClick={() => navigate('/player')}
+                />
+              ) : (
+                <Button
+                  icon="lyrics"
+                  off={!lyrics.data}
+                  onClick={() => navigate('/player/lyrics')}
+                />
+              )}
               <Button
                 icon={queue.repeat === 'track' ? 'repeat_one' : 'repeat'}
                 off={queue.repeat === 'off'}
                 onClick={() => queue.cycleRepeat()}
+              />
+              <Button
+                icon="favorite"
+                filled={favorite}
+                off={!favorite}
+                onClick={() => favItem.mutate(favorite)}
+              />
+              <Button
+                icon="more_vert"
+                onClick={(e) => setMenu(e, 'track', track)}
               />
             </div>
           </div>
@@ -89,7 +126,7 @@ const Player = () => {
       </div>
 
       <div className="flex flex-1 flex-col">
-        <Queue />
+        {screen === 'lyrics' ? <Lyrics /> : <Queue />}
       </div>
     </div>
   ) : (
