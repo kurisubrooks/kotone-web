@@ -118,7 +118,9 @@ const Player = () => {
               />
               <Button
                 icon="more_vert"
-                onClick={(e) => setMenu(e, 'track', track)}
+                onClick={(e) =>
+                  setTimeout(() => setMenu(e, 'track', track), 10)
+                }
               />
             </div>
           </div>
