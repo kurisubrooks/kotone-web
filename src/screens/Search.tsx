@@ -27,7 +27,7 @@ const Search = () => {
   return (
     <div className="flex h-full px-4 pt-4">
       {items && (
-        <div className="flex shrink grow basis-auto">
+        <div className="flex flex-1">
           <AutoSizer>
             {({ height, width }) => (
               <FixedSizeList

@@ -130,7 +130,7 @@ const AudioPlayer = () => {
     if (queue.hasHydrated) {
       setTimeout(() => {
         setAutoplay(true)
-      }, 100)
+      }, 300)
     }
   }, [queue.hasHydrated])
 

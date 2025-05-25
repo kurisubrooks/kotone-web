@@ -20,16 +20,16 @@ const Album = () => {
   const { showMenu, setMenu } = useMenu()
 
   const album = useSingleItem(albumParam)
+  const playlist = album.data?.Type === 'Playlist'
   const { data, isLoading } = useItems({
     ParentId: albumParam,
-    SortBy: 'ParentIndexNumber,IndexNumber,Name',
+    SortBy: playlist ? undefined : 'ParentIndexNumber,IndexNumber,Name',
     Fields: 'MediaSources',
   })
   const liked = data
     ? data.Items.filter((track) => track.UserData.IsFavorite)
     : undefined
 
-  const playlist = album.data?.Type === 'Playlist'
   const image = client.server + '/Items/' + albumParam + '/Images/Primary'
 
   return (
@@ -112,7 +112,7 @@ const Album = () => {
               </div>
             </div>
 
-            <div className="flex shrink grow basis-auto">
+            <div className="flex flex-1">
               <AutoSizer>
                 {({ height, width }) => (
                   <FixedSizeList
