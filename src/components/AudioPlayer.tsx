@@ -68,11 +68,12 @@ const AudioPlayer = () => {
         '&deviceId=' +
         client.deviceID +
         '&maxStreamingBitrate=140000000' +
-        '&container=opus,webm|opus,ts|mp3,mp3,aac,m4a|aac,m4b|aac,flac,webma,webm|webma,wav,ogg' +
+        '&container=opus,webm|opus,ts|mp3,aac,m4a|aac,m4b|aac,mp4|flac,webma,webm|webma,wav,ogg' +
         '&transcodingContainer=ts' +
         '&transcodingProtocol=hls' +
         '&audioCodec=copy' +
-        '&SegmentContainer=mp4' +
+        '&SegmentContainer=' +
+        (track.Container.toLowerCase() === 'mp3' ? 'ts' : 'mp4') +
         '&apiKey=' +
         client.token
       : undefined
