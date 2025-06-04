@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, useRef } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import {
@@ -59,6 +59,7 @@ const Row = ({ data, index, style }: RowProps) => {
 const Queue = () => {
   const queue = useQueue()
   const { showMenu } = useMenu()
+  const listRef = useRef<FixedSizeList>(null)
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -73,7 +74,12 @@ const Queue = () => {
 
   return (
     <div className="flex h-full flex-col gap-4 px-4 pt-4">
-      <h1 className="text-3xl font-bold">Queue</h1>
+      <div
+        className="hover:bg-highlight round relative -left-3 mx-1 flex flex-row px-3 py-1 transition hover:cursor-pointer"
+        onClick={() => listRef.current.scrollToItem(queue.track, 'center')}
+      >
+        <h1 className="text-3xl font-bold">Queue</h1>
+      </div>
       <div className="flex h-full">
         <AutoSizer>
           {({ height, width }) => (
@@ -94,6 +100,7 @@ const Queue = () => {
               >
                 {(provided) => (
                   <FixedSizeList
+                    ref={listRef}
                     width={width}
                     height={height}
                     itemCount={queue.queue.length}
