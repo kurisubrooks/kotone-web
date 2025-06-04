@@ -6,7 +6,8 @@ import emitter, { Event } from '../lib/emitter'
 import usePlayer from '../hooks/usePlayer'
 import useProgress from '../hooks/useProgress'
 import useSettings from '../hooks/useSettings'
-import { Track } from '../types/ItemTypes'
+import { playing, stopped } from '../lib/progress'
+import useInterval from '../hooks/useInterval'
 
 const AudioPlayer = () => {
   const client = useClient()
@@ -105,15 +106,18 @@ const AudioPlayer = () => {
   }
 
   const audioEvents: DOMAttributes<HTMLAudioElement> = {
-    onPlay: () => {
+    onPlay: async () => {
       player.setIsPlaying(true)
       player.setIsBuffering(false)
+      await playing('unpause')
     },
-    onPause: () => {
+    onPause: async () => {
       player.setIsPlaying(false)
+      await playing('pause')
     },
-    onEnded: () => {
+    onEnded: async () => {
       queue.nextTrack()
+      await stopped()
     },
     onWaiting: () => {
       console.log('WAITING')
@@ -127,6 +131,10 @@ const AudioPlayer = () => {
     },
   }
 
+  useInterval(async () => {
+    await playing('timeupdate')
+  }, 10_000)
+
   useEffect(() => {
     if (queue.hasHydrated) {
       setTimeout(() => {
@@ -138,7 +146,6 @@ const AudioPlayer = () => {
   return (
     <audio
       ref={audio}
-      // src={audioSource}
       preload="auto"
       autoPlay={autoplay}
       loop={queue.repeat === 'track'}
