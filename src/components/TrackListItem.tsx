@@ -4,12 +4,12 @@ import useClient from '../hooks/useClient'
 import ticksToTime from '../lib/ticksToTime'
 import Icon from './Icon'
 import { getBlurHashAverageColor } from 'fast-blurhash'
-import tinycolor from 'tinycolor2'
 import useFavItem from '../api/useFavItem'
 import { cn } from '../lib/cn'
 import { DraggableProvided } from '@hello-pangea/dnd'
 import useQueue from '../hooks/useQueue'
 import cardColor from '../lib/cardColor'
+import useSettings from '../hooks/useSettings'
 
 interface Props {
   item: Item
@@ -43,6 +43,7 @@ const TrackListItem = ({
   onContextMenu,
 }: Props) => {
   const client = useClient()
+  const settings = useSettings()
   const queue = useQueue()
   const favItem = useFavItem(
     item.Id,
@@ -69,7 +70,7 @@ const TrackListItem = ({
       : null
   const average = blurhash ? getBlurHashAverageColor(blurhash) : null
   const color = average
-    ? cardColor({ r: average[0], g: average[1], b: average[2] })
+    ? cardColor({ r: average[0], g: average[1], b: average[2] }, settings.dark)
     : '#f4f4f560'
   const hoverStyle: CSSProperties = {
     backgroundColor: color,

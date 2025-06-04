@@ -3,6 +3,7 @@ import Item from 'jellyfin-api/lib/types/media/Item'
 import useClient from '../hooks/useClient'
 import { getBlurHashAverageColor } from 'fast-blurhash'
 import cardColor from '../lib/cardColor'
+import useSettings from '../hooks/useSettings'
 
 interface Props {
   item: Item
@@ -13,6 +14,7 @@ interface Props {
 
 const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
   const client = useClient()
+  const settings = useSettings()
 
   const image =
     'Primary' in item.ImageTags
@@ -34,7 +36,7 @@ const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
       : null
   const average = blurhash ? getBlurHashAverageColor(blurhash) : null
   const color = average
-    ? cardColor({ r: average[0], g: average[1], b: average[2] })
+    ? cardColor({ r: average[0], g: average[1], b: average[2] }, settings.dark)
     : '#f4f4f560'
   const hoverStyle: CSSProperties = {
     backgroundColor: color,
