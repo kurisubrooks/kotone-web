@@ -2,7 +2,7 @@ import { CSSProperties, MouseEventHandler, useState } from 'react'
 import Item from 'jellyfin-api/lib/types/media/Item'
 import useClient from '../hooks/useClient'
 import { getBlurHashAverageColor } from 'fast-blurhash'
-import tinycolor from 'tinycolor2'
+import cardColor from '../lib/cardColor'
 
 interface Props {
   item: Item
@@ -32,23 +32,20 @@ const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
             : item.AlbumPrimaryImageTag
         ]
       : null
-  const color = blurhash ? getBlurHashAverageColor(blurhash) : null
+  const average = blurhash ? getBlurHashAverageColor(blurhash) : null
+  const color = average
+    ? cardColor({ r: average[0], g: average[1], b: average[2] })
+    : '#f4f4f560'
   const hoverStyle: CSSProperties = {
-    backgroundColor: color
-      ? tinycolor({
-          r: color[0],
-          g: color[1],
-          b: color[2],
-          a: 0.4,
-        }).toHex8String()
-      : '#f4f4f560',
+    backgroundColor: color,
+    outlineColor: color,
   }
 
   const [focus, setFocus] = useState<boolean>(false)
 
   return (
     <div
-      className="group round flex flex-col gap-1 transition"
+      className="group round my-2 flex flex-col gap-1 outline-8 outline-transparent transition outline-solid"
       onClick={onClick}
       onContextMenu={onContextMenu}
       style={{ ...style, ...(focus && hoverStyle) }}
@@ -59,7 +56,7 @@ const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
         src={image!}
         className="round aspect-square h-48 w-48 object-cover transition group-hover:brightness-125"
       />
-      <div className="flex w-48 flex-col px-2 py-1">
+      <div className="flex w-48 flex-col">
         <div className="line-clamp-2 font-medium">{item.Name}</div>
         {'AlbumArtist' in item && (
           <div className="text-secondary line-clamp-1">{item.AlbumArtist}</div>

@@ -42,7 +42,7 @@ const AlbumList = () => {
                 <FixedSizeGrid
                   width={width}
                   height={height}
-                  rowHeight={276 + 8}
+                  rowHeight={284 + 8}
                   columnWidth={192 + 32}
                   columnCount={columnCount}
                   rowCount={Math.ceil(albums.data.Items.length / columnCount)}

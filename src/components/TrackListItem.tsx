@@ -9,6 +9,7 @@ import useFavItem from '../api/useFavItem'
 import { cn } from '../lib/cn'
 import { DraggableProvided } from '@hello-pangea/dnd'
 import useQueue from '../hooks/useQueue'
+import cardColor from '../lib/cardColor'
 
 interface Props {
   item: Item
@@ -66,16 +67,13 @@ const TrackListItem = ({
             : item.AlbumPrimaryImageTag
         ]
       : null
-  const color = blurhash ? getBlurHashAverageColor(blurhash) : null
+  const average = blurhash ? getBlurHashAverageColor(blurhash) : null
+  const color = average
+    ? cardColor({ r: average[0], g: average[1], b: average[2] })
+    : '#f4f4f560'
   const hoverStyle: CSSProperties = {
-    backgroundColor: color
-      ? tinycolor({
-          r: color[0],
-          g: color[1],
-          b: color[2],
-          a: 0.4,
-        }).toHex8String()
-      : '#f4f4f560',
+    backgroundColor: color,
+    outlineColor: color,
   }
 
   const [focus, setFocus] = useState<boolean>(false)
@@ -88,7 +86,7 @@ const TrackListItem = ({
       style={{ ...provided?.draggableProps.style, ...style }}
     >
       <div
-        className="round group flex h-16 w-full py-1 transition hover:cursor-pointer"
+        className="round group mx-1 flex h-16 w-full py-1 outline-4 outline-transparent transition outline-solid hover:cursor-pointer"
         onClick={onClick}
         onContextMenu={onContextMenu}
         style={focus || dragging ? hoverStyle : {}}
