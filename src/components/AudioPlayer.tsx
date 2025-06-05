@@ -20,10 +20,6 @@ const AudioPlayer = () => {
   const [metadata, setMetadata] = useState<MediaMetadata>()
   const hls = new Hls()
 
-  if (metadata && 'mediaSession' in navigator) {
-    navigator.mediaSession.metadata = metadata
-  }
-
   const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
   const image = track
     ? 'Primary' in track.ImageTags
@@ -44,6 +40,28 @@ const AudioPlayer = () => {
       )
     }
   }, [track, image])
+
+  const actionHandlers: [
+    action: MediaSessionAction,
+    handler: MediaSessionActionHandler | null,
+  ][] = [
+    ['play', () => {}],
+    ['pause', () => {}],
+    ['stop', () => queue.clearQueue()],
+    ['previoustrack', () => queue.prevTrack()],
+    ['nexttrack', () => queue.nextTrack()],
+  ]
+
+  if ('mediaSession' in navigator) {
+    if (metadata) navigator.mediaSession.metadata = metadata
+    for (const [action, handler] of actionHandlers) {
+      try {
+        navigator.mediaSession.setActionHandler(action, track ? handler : null)
+      } catch {
+        console.log(`The media session action "${action}" is not supported.`)
+      }
+    }
+  }
 
   const gain = settings.gain
     ? track
@@ -83,6 +101,8 @@ const AudioPlayer = () => {
     if (audioSource) {
       hls.loadSource(audioSource)
       hls.attachMedia(audio.current!)
+    } else {
+      audio.current.src = null
     }
   }, [audioSource])
 
