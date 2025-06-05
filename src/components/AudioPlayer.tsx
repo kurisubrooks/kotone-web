@@ -45,8 +45,8 @@ const AudioPlayer = () => {
     action: MediaSessionAction,
     handler: MediaSessionActionHandler | null,
   ][] = [
-    ['play', () => {}],
-    ['pause', () => {}],
+    ['play', () => player.play()],
+    ['pause', () => player.pause()],
     ['stop', () => queue.clearQueue()],
     ['previoustrack', () => queue.prevTrack()],
     ['nexttrack', () => queue.nextTrack()],
