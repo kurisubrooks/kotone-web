@@ -1,4 +1,5 @@
 import { DOMAttributes, useEffect, useRef, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import Hls from 'hls.js'
 import useClient from '../hooks/useClient'
 import useQueue from '../hooks/useQueue'
@@ -8,8 +9,10 @@ import useProgress from '../hooks/useProgress'
 import useSettings from '../hooks/useSettings'
 import { playing, stopped } from '../lib/progress'
 import useInterval from '../hooks/useInterval'
+import { Track } from '../types/ItemTypes'
 
 const AudioPlayer = () => {
+  const queryClient = useQueryClient()
   const client = useClient()
   const queue = useQueue()
   const player = usePlayer()
@@ -40,6 +43,19 @@ const AudioPlayer = () => {
       )
     }
   }, [track, image])
+
+  const reportNewTrack = async (track: Track) => {
+    if (track) {
+      await playing(undefined, track.Id)
+      queryClient.invalidateQueries({
+        queryKey: ['items', { SortBy: 'DatePlayed' }],
+        exact: false,
+      })
+    }
+  }
+  useEffect(() => {
+    reportNewTrack(track)
+  }, [track])
 
   const actionHandlers: [
     action: MediaSessionAction,
