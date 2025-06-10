@@ -6,8 +6,11 @@ import useProgress from '../hooks/useProgress'
 import useQueue from '../hooks/useQueue'
 import ActivityType from '../types/ActivityType'
 import { ticksToSecs } from '../lib/ticksToTime'
+import isDesktop from '../lib/isDesktop'
 
 const RPC = () => {
+  if (!isDesktop()) return null
+
   const client = useClient()
   const settings = useSettings()
   const queue = useQueue()
