@@ -12,6 +12,8 @@ import useViews from '../api/useViews'
 import useItems from '../api/useItems'
 import { cn } from '../lib/cn'
 import { Blurhash } from 'react-blurhash'
+import isDesktop from '../lib/isDesktop'
+import RPC from '../components/RPC'
 
 const Layout = () => {
   const library = useLibrary()
@@ -129,6 +131,7 @@ const Layout = () => {
         <Menu />
       </div>
       <AudioPlayer />
+      {isDesktop && <RPC />}
     </>
   )
 }
