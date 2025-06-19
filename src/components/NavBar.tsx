@@ -94,7 +94,7 @@ const NavBar = () => {
           filled
           className="hover:cursor-pointer"
         />
-        <Icon icon="settings" />
+        <Icon icon="settings" onClick={() => navigate('/settings')} />
       </div>
 
       {(process.env.NODE_ENV === 'development' ||

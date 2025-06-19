@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useEffect, useState } from 'react'
 import useClient from '../hooks/useClient'
 import useSettings from '../hooks/useSettings'
 import usePlayer from '../hooks/usePlayer'
@@ -16,27 +17,53 @@ const RPC = () => {
   const queue = useQueue()
   const { isPlaying } = usePlayer()
   const { progress } = useProgress()
-  const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
+  const [ready, setReady] = useState(false)
+
+  window.api.rpc.ready(() => setReady(true))
 
   useEffect(() => {
-    if (track) {
-      window.api.rpc.setActivity({
-        type: ActivityType.Listening,
-        name: track.Artists.join(', '),
-        details: track.Name,
-        state: track.Artists.join(', '),
-        largeImageText: track.Album,
-        startTimestamp: Date.now() - progress * 1000,
-        endTimestamp: isPlaying
-          ? Date.now() +
-            ticksToSecs(track.RunTimeTicks) * 1000 -
-            progress * 1000
-          : undefined,
-      })
-    } else {
-      window.api.rpc.clearActivity()
+    if (!ready) window.api.rpc.login()
+  }, [ready])
+
+  const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
+
+  const baseURL = settings.RPCProxy ? settings.RPCProxyURL : client.server
+  const image = track
+    ? 'Primary' in track.ImageTags
+      ? baseURL +
+        '/Items/' +
+        track.Id +
+        '/Images/Primary?format=webp&width=512&height=512'
+      : 'AlbumPrimaryImageTag' in track && track.AlbumPrimaryImageTag
+        ? baseURL +
+          '/Items/' +
+          track.AlbumId +
+          '/Images/Primary?format=webp&width=512&height=512'
+        : null
+    : null
+
+  useEffect(() => {
+    if (ready) {
+      if (track) {
+        window.api.rpc.setActivity({
+          type: ActivityType.Listening,
+          name: track.Artists.join(', '),
+          details: track.Name,
+          state: track.Artists.join(', '),
+          largeImageText: track.Album,
+          largeImageKey: settings.RPCImage ? image : undefined,
+          startTimestamp: Date.now() - progress * 1000,
+          endTimestamp: isPlaying
+            ? Date.now() +
+              ticksToSecs(track.RunTimeTicks) * 1000 -
+              progress * 1000
+            : undefined,
+        })
+      } else {
+        window.api.rpc.clearActivity()
+      }
     }
-  }, [track, isPlaying])
+  }, [track, isPlaying, ready])
 
   return <div className="hidden" />
 }
