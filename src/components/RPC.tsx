@@ -47,7 +47,8 @@ const RPC = () => {
       if (track) {
         window.api.rpc.setActivity({
           type: ActivityType.Listening,
-          name: track.Artists.join(', '),
+          name:
+            track.Artists.length > 0 ? track.Artists.join(', ') : track.Album,
           details: track.Name,
           state: track.Artists.join(', '),
           largeImageText: track.Album,

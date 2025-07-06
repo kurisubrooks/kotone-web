@@ -94,12 +94,12 @@ const TrackListItem = ({
         onMouseEnter={() => setFocus(true)}
         onMouseLeave={() => setFocus(false)}
       >
-        {trackNumber && !showAlbumArt && (
+        {item.IndexNumber && trackNumber && !showAlbumArt && (
           <div className="flex w-16 items-center justify-center">
             {playing ? <Icon icon="equalizer" size={24} /> : item.IndexNumber}
           </div>
         )}
-        {showAlbumArt && !trackNumber && (
+        {(!item.IndexNumber || (showAlbumArt && !trackNumber)) && (
           <div className="relative mr-4 flex w-16 items-center justify-center">
             <img
               src={image!}
