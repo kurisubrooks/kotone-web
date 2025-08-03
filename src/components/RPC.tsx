@@ -8,6 +8,7 @@ import useQueue from '../hooks/useQueue'
 import ActivityType from '../types/ActivityType'
 import { ticksToSecs } from '../lib/ticksToTime'
 import isDesktop from '../lib/isDesktop'
+import StatusDisplayType from '../types/StatusDisplayType'
 
 const RPC = () => {
   if (!isDesktop()) return null
@@ -47,8 +48,8 @@ const RPC = () => {
       if (track) {
         window.api.rpc.setActivity({
           type: ActivityType.Listening,
-          name:
-            track.Artists.length > 0 ? track.Artists.join(', ') : track.Album,
+          name: 'Kotone',
+          statusDisplayType: StatusDisplayType.State,
           details: track.Name,
           state: track.Artists.join(', '),
           largeImageText: track.Album,
