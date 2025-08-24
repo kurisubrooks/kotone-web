@@ -37,14 +37,14 @@ const Album = () => {
       <div className="flex h-full gap-4">
         <img
           src={image}
-          className="aspect-square h-96 w-96 rounded-4xl object-cover"
+          className="aspect-square size-96 rounded-4xl object-cover"
         />
 
         {album.data && !album.isLoading && data && !isLoading && (
           <div className="flex w-full flex-col gap-4">
             <div className="flex flex-col gap-2">
               <div className="text-4xl font-bold">{album.data.Name}</div>
-              <div className="text-secondary text-2xl font-medium">
+              <div className="text-secondary-foreground text-2xl font-medium">
                 {album.data.AlbumArtist}
               </div>
               <div className="flex flex-wrap items-center justify-between gap-4">

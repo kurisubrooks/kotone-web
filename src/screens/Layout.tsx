@@ -119,7 +119,7 @@ const Layout = () => {
       <div
         className={cn(
           'font-default flex w-full flex-col overflow-hidden',
-          !playerScreen && 'bg-background',
+          !playerScreen && 'bg-gradient',
         )}
       >
         {playerScreen && (

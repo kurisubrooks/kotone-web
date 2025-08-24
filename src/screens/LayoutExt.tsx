@@ -62,7 +62,7 @@ const LayoutExt = () => {
   return (
     <div
       className={cn(
-        'text-primary flex h-screen',
+        'text-foreground flex h-screen',
         (settings.dark || playerScreen || setupScreen) && 'dark',
       )}
     >

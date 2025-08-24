@@ -61,7 +61,9 @@ const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
       <div className="flex w-48 flex-col">
         <div className="line-clamp-2 font-medium">{item.Name}</div>
         {'AlbumArtist' in item && (
-          <div className="text-secondary line-clamp-1">{item.AlbumArtist}</div>
+          <div className="text-secondary-foreground line-clamp-1">
+            {item.AlbumArtist}
+          </div>
         )}
       </div>
     </div>

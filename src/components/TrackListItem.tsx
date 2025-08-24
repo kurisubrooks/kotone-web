@@ -118,7 +118,7 @@ const TrackListItem = ({
             <div
               className={cn(
                 'line-clamp-1',
-                dragging ? 'text-zinc-100/60' : 'text-secondary',
+                dragging ? 'text-zinc-100/60' : 'text-secondary-foreground',
               )}
             >
               {item.Type === 'MusicAlbum'

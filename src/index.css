@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+body {
+  overscroll-behavior: none;
+  font-size: var(--font-size);
+}
+
 /* override default Tailwind values like colours and generated classes
    values here also generate utility classes if prefixed correctly
    example: --color-primary will generate .bg-primary, .text-primary, etc. */
@@ -11,15 +16,17 @@
   /* `inline` allows you to reference other variables (like in :root)
      instead of inlining values, so overrides like in .dark will still work */
 
-  --font-sans:
-    'Nunito', 'M PLUS Rounded 1c', 'Noto Sans JP', 'Noto Sans CJK',
-    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: 'Nunito', 'M PLUS Rounded 1c', 'Noto Sans JP', 'Noto Sans CJK';
+  --default-font-family: var(--font-sans);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-xs: calc(var(--radius) / 3);
+  --radius-sm: calc(var(--radius) / 2);
+  --radius-md: calc(var(--radius) / 1.5);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 3);
+  --radius-4xl: calc(var(--radius) * 4);
 
   --color-white: var(--white);
   --color-black: var(--black);
@@ -62,25 +69,25 @@
 
   --background: var(--color-zinc-100);
   --foreground: var(--color-zinc-900);
-  --surface: var(--color-zinc-800);
+  --surface: var(--color-zinc-200);
   --surface-foreground: var(--color-zinc-100);
-  --card: var(--color-zinc-800);
+  --card: var(--color-zinc-200);
   --card-foreground: var(--color-zinc-100);
 
-  --primary: var(--color-yellow-400);
-  --primary-foreground: var(--color-zinc-900);
-  --secondary: var(--color-orange-400);
-  --secondary-foreground: var(--color-zinc-700);
-  --muted: var(--color-zinc-600);
-  --muted-foreground: var(--color-zinc-400);
-  --accent: var(--color-red-400);
-  --accent-foreground: var(--color-zinc-100);
+  --primary: var(--white);
+  --primary-foreground: var(--black);
+  --secondary: var(--color-zinc-200);
+  --secondary-foreground: var(--color-zinc-800);
+  --muted: var(--color-zinc-300);
+  --muted-foreground: var(--color-zinc-500);
+  --accent: var(--color-rose-500);
+  --accent-foreground: var(--color-rose-100);
 
   --overlay: rgba(0, 0, 0, 0.8);
   --border: var(--color-zinc-300);
   --input: var(--color-zinc-300);
   --selection: var(--color-zinc-300);
-  --selection-foreground: var(--color-zinc-900);
+  --selection-foreground: var(--color-foreground);
 
   /* Player theme variables */
   --player-icon: var(--color-yellow-400);
@@ -94,12 +101,8 @@
 
 /* Dark mode variable overrides */
 .dark {
-  --white: var(--color-zinc-900);
-  --black: var(--color-zinc-100);
-}
-
-body {
-  overscroll-behavior: none;
+  --white: var(--color-zinc-100);
+  --black: var(--color-zinc-900);
 }
 
 .material-symbols-filled {
@@ -107,13 +110,21 @@ body {
 }
 
 @layer utilities {
+  .rounded {
+    border-radius: var(--radius);
+  }
   .bg-gradient {
-    @apply bg-linear-160 from-purple-200 to-pink-200;
-    @variant dark {
-      @apply bg-linear-160 from-purple-400 to-pink-400;
-    }
+    background: var(
+      --background,
+      linear-gradient(
+        var(--background-gradient-direction, 160deg),
+        var(--background-gradient-from),
+        var(--background-gradient-to)
+      )
+    );
   }
 }
+
 /*
 @utility text-primary {
   @apply text-zinc-900;

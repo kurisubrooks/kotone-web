@@ -4,13 +4,14 @@ export default {
   description: 'An alternate theme for Kotone by Kurisu :3',
   theme: {
     text: {
-      font: "'Inter', 'Noto Sans JP', sans-serif",
+      font: 'Inter',
       fontSize: '16px',
-      fontWeight: 'normal',
-      lineHeight: '1.5',
     },
     colours: {
-      background: '#2d1810',
+      background: '#2d1810', // use 'unset' if you want to use gradient
+      'background-gradient-direction': '160deg',
+      'background-gradient-from': '#2d1810',
+      'background-gradient-to': '#2d1810',
       foreground: '#f4e4d0',
       surface: '#3d251a',
       'surface-foreground': '#f4e4d0',
@@ -18,7 +19,7 @@ export default {
       'card-foreground': '#f4e4d0',
 
       primary: '#d4935a',
-      'primary-foreground': '#f4e4d0',
+      'primary-foreground': '#d4935a',
       secondary: '#a67c52',
       'secondary-foreground': '#f4e4d0',
       muted: '#6b4a36',

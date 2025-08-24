@@ -8,8 +8,8 @@ const Settings = () => {
   const settings = useSettings()
 
   return (
-    <div className="player-padding bg-background text-primary-foreground px-4 pt-4">
-      <div className="text-primary-foreground text-4xl font-bold">Settings</div>
+    <div className="player-padding bg-gradient text-foreground px-4 pt-4">
+      <div className="text-4xl font-bold">Settings</div>
 
       <div className="flex flex-col gap-2 py-2">
         <SettingsOption

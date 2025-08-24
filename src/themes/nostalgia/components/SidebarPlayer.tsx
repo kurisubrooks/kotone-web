@@ -50,7 +50,7 @@ const SidebarPlayer = () => {
           </div>
           <div className="space-y-1 text-center">
             <div
-              className="text-primary truncate text-sm font-medium"
+              className="text-primary-foreground truncate text-sm font-medium"
               title={track.Name}
             >
               {track.Name}

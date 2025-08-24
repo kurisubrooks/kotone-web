@@ -14,7 +14,7 @@ export const applyThemeVariables = (theme: ThemeConfig): void => {
   // Font/text variables
   if (theme.theme?.text) {
     const { font, fontSize, fontWeight, lineHeight } = theme.theme.text
-    if (font) root.style.setProperty('--font-family', font)
+    if (font) root.style.setProperty('--font-sans', font)
     if (fontSize) root.style.setProperty('--font-size', fontSize)
     if (fontWeight) root.style.setProperty('--font-weight', fontWeight)
     if (lineHeight) root.style.setProperty('--line-height', lineHeight)

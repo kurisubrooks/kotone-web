@@ -103,7 +103,7 @@ const NostalgiaLayout = () => {
 
   return (
     <>
-      <div className="bg-background flex h-screen w-full">
+      <div className="bg-gradient flex h-screen w-full">
         {/* Main content area */}
         <div className="flex flex-1 flex-col overflow-hidden">
           {playerScreen && (

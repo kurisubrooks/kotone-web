@@ -23,10 +23,6 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ className }) => {
 
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      <div className="text-secondary-foreground text-sm font-medium">
-        Select Theme
-      </div>
-
       <div className="grid grid-cols-1 gap-2">
         {theme.availableThemes.map((themeId) => {
           const isSelected = theme.currentThemeId === themeId
@@ -37,23 +33,13 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ className }) => {
               key={themeId}
               onClick={() => handleThemeChange(themeId)}
               className={cn(
-                'flex items-center justify-between rounded p-3',
-                'border-2 transition-all duration-200',
-                'hover:bg-surface',
-                isSelected
-                  ? 'border-primary bg-card'
-                  : 'bg-surface border-transparent',
+                'bg-card flex items-center justify-between rounded p-3',
+                'cursor-pointer border-2 transition-all duration-200',
+                isSelected ? 'border-border' : 'border-transparent',
               )}
             >
               <div className="flex flex-col items-start">
-                <div
-                  className={cn(
-                    'font-medium',
-                    isSelected
-                      ? 'text-primary-foreground'
-                      : 'text-secondary-foreground',
-                  )}
-                >
+                <div className={cn('text-primary-foreground font-medium')}>
                   {themeData?.name || themeId}
                 </div>
                 {themeData?.description && (
@@ -73,7 +59,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ className }) => {
         })}
       </div>
 
-      <div className="bg-surface mt-4 rounded p-3">
+      {/* <div className="bg-surface mt-4 rounded p-3">
         <div className="text-muted-foreground text-xs">
           Current: {theme.name}
         </div>
@@ -82,7 +68,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ className }) => {
             Custom Layout Active
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }
