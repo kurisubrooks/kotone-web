@@ -14,7 +14,7 @@ const Button = ({ icon, filled, size, onClick, children }: Props) => {
   return (
     <div
       className={cn(
-        'round bg-button flex items-center gap-2 py-1 font-medium transition hover:cursor-pointer',
+        'bg-button flex items-center gap-2 rounded-2xl py-1 font-medium transition hover:cursor-pointer',
         icon ? 'pr-4 pl-2' : 'px-4',
       )}
       onClick={onClick}

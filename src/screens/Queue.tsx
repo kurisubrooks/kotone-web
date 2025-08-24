@@ -27,7 +27,7 @@ const Row = ({ data, index, style }: RowProps) => {
   if (!data[index]) {
     return (
       <div className="flex h-18 w-full py-1">
-        <div className="round group flex h-16 w-full gap-4 bg-red-400 py-1" />
+        <div className="group flex h-16 w-full gap-4 rounded-2xl bg-red-400 py-1" />
       </div>
     )
   }
@@ -75,7 +75,7 @@ const Queue = () => {
   return (
     <div className="flex h-full flex-col gap-4 px-4 pt-4">
       <div
-        className="hover:bg-highlight round relative -left-3 mx-1 flex flex-row px-3 py-1 transition hover:cursor-pointer"
+        className="hover:bg-highlight relative -left-3 mx-1 flex flex-row rounded-2xl px-3 py-1 transition hover:cursor-pointer"
         onClick={() => listRef.current.scrollToItem(queue.track, 'center')}
       >
         <h1 className="text-3xl font-bold">Queue</h1>

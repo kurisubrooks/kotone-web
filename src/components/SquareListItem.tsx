@@ -47,7 +47,7 @@ const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
 
   return (
     <div
-      className="group round my-2 flex flex-col gap-1 outline-8 outline-transparent transition outline-solid"
+      className="group my-2 flex flex-col gap-1 rounded-2xl outline-8 outline-transparent transition outline-solid"
       onClick={onClick}
       onContextMenu={onContextMenu}
       style={{ ...style, ...(focus && hoverStyle) }}
@@ -56,7 +56,7 @@ const SquareListItem = ({ item, style, onClick, onContextMenu }: Props) => {
     >
       <img
         src={image!}
-        className="round aspect-square h-48 w-48 object-cover transition group-hover:brightness-125"
+        className="aspect-square h-48 w-48 rounded-2xl object-cover transition group-hover:brightness-125"
       />
       <div className="flex w-48 flex-col">
         <div className="line-clamp-2 font-medium">{item.Name}</div>

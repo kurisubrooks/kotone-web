@@ -6,7 +6,7 @@ const Progress = () => {
   const { progress } = useProgress()
 
   return (
-    <div className="round player-width pointer-events-none absolute bottom-0 h-full grow overflow-hidden">
+    <div className="player-width pointer-events-none absolute bottom-0 h-full grow overflow-hidden rounded-2xl">
       <div
         className="absolute bottom-0 h-1 rounded-full bg-zinc-100/40"
         style={{ width: (progress / duration) * 100 + '%' }}

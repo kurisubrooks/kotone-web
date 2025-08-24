@@ -91,7 +91,7 @@ const Signin = () => {
     <div className="bg-primary flex w-full items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="text-w round flex flex-col items-start gap-2 bg-pink-800/40 p-4"
+        className="flex flex-col items-start gap-2 rounded-2xl bg-pink-800/40 p-4 text-white"
       >
         <div className="text-2xl font-medium">
           {'Sign in' + (client.name ? ' to ' + client.name : '')}
@@ -101,18 +101,18 @@ const Signin = () => {
           type="text"
           placeholder="Username"
           autoComplete="username"
-          className="bg-w text-b round w-md px-4 py-1.5"
+          className="w-md rounded-2xl bg-white px-4 py-1.5 text-black"
         />
         <input
           {...register('password')}
           type="password"
           placeholder="Password"
           autoComplete="current-password"
-          className="bg-w text-b round w-md px-4 py-1.5"
+          className="w-md rounded-2xl bg-white px-4 py-1.5 text-black"
         />
         {error && (
           <motion.div
-            className="text-w round w-full bg-red-700 px-4 py-1.5 font-medium"
+            className="w-full rounded-2xl bg-red-700 px-4 py-1.5 font-medium text-white"
             initial={{ y: 8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -8, opacity: 0 }}
@@ -123,13 +123,13 @@ const Signin = () => {
         <div className="flex w-full flex-row-reverse gap-2">
           <input
             type="submit"
-            className="bg-w text-b round px-4 py-1.5 font-medium"
+            className="rounded-2xl bg-white px-4 py-1.5 font-medium text-black"
             value="Sign in"
           />
           {!import.meta.env.VITE_SERVER && (
             <input
               type="button"
-              className="bg-w text-b round px-4 py-1.5 font-medium"
+              className="rounded-2xl bg-white px-4 py-1.5 font-medium text-black"
               value="Back"
               onClick={() => {
                 navigate('/server')

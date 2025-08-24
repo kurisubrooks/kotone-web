@@ -39,7 +39,7 @@ const Player = () => {
   const maxImageSize = Math.min(width / 2, (height / 10) * 4.5)
 
   return track ? (
-    <div className="text-w flex h-full flex-row">
+    <div className="flex h-full flex-row text-white">
       <div className="flex flex-1 flex-col items-center p-4">
         <div
           className="flex flex-1 flex-col gap-4"
@@ -49,7 +49,7 @@ const Player = () => {
         >
           <img
             src={image!}
-            className="round-2 aspect-square object-cover"
+            className="aspect-square rounded-4xl object-cover"
             style={{
               maxWidth: maxImageSize,
               maxHeight: maxImageSize,

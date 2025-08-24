@@ -37,7 +37,7 @@ const Album = () => {
       <div className="flex h-full gap-4">
         <img
           src={image}
-          className="round-2 aspect-square h-96 w-96 object-cover"
+          className="aspect-square h-96 w-96 rounded-4xl object-cover"
         />
 
         {album.data && !album.isLoading && data && !isLoading && (

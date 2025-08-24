@@ -51,7 +51,7 @@ const FloatingPlayer = () => {
             navigate('/player')
           }}
         >
-          <div className="player-width round pointer-events-none absolute z-10 h-full overflow-hidden bg-zinc-900">
+          <div className="player-width pointer-events-none absolute z-10 h-full overflow-hidden rounded-2xl bg-zinc-900">
             {blurhash && (
               <Blurhash
                 hash={blurhash}
@@ -61,10 +61,10 @@ const FloatingPlayer = () => {
               />
             )}
           </div>
-          <div className="text-w round player-width z-20 flex items-center overflow-hidden bg-zinc-900/20">
+          <div className="player-width z-20 flex items-center overflow-hidden rounded-2xl bg-zinc-900/20 text-white">
             <Progress />
             <div className="flex grow gap-4">
-              <div className="round bg-w h-16 w-16 overflow-hidden">
+              <div className="h-16 w-16 overflow-hidden rounded-2xl bg-white">
                 <img
                   src={image!}
                   className="aspect-square h-16 w-16 object-cover"

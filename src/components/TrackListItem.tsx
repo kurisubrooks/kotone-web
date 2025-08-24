@@ -81,13 +81,13 @@ const TrackListItem = ({
 
   return (
     <div
-      className={cn('flex h-18 w-full py-1', dragging && 'text-w')}
+      className={cn('flex h-18 w-full py-1', dragging && 'text-white')}
       ref={provided ? provided.innerRef : undefined}
       {...provided?.draggableProps}
       style={{ ...provided?.draggableProps.style, ...style }}
     >
       <div
-        className="round group mx-1 flex h-16 w-full py-1 outline-4 outline-transparent transition outline-solid hover:cursor-pointer"
+        className="group mx-1 flex h-16 w-full rounded-2xl py-1 outline-4 outline-transparent transition outline-solid hover:cursor-pointer"
         onClick={onClick}
         onContextMenu={onContextMenu}
         style={focus || dragging ? hoverStyle : {}}
@@ -103,10 +103,10 @@ const TrackListItem = ({
           <div className="relative mr-4 flex w-16 items-center justify-center">
             <img
               src={image!}
-              className="round aspect-square h-16 w-16 object-cover transition group-hover:brightness-125"
+              className="aspect-square h-16 w-16 rounded-2xl object-cover transition group-hover:brightness-125"
             />
             {playing && (
-              <div className="round absolute flex h-16 w-16 items-center justify-center bg-zinc-900/60">
+              <div className="absolute flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-900/60">
                 <Icon icon="equalizer" size={24} />
               </div>
             )}

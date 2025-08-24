@@ -30,13 +30,13 @@ const Menu = () => {
             duration: 0.1,
             easings: ['easeIn', 'easeOut'],
           }}
-          className="round absolute w-64 overflow-hidden text-zinc-100"
+          className="absolute w-64 overflow-hidden rounded-2xl text-zinc-100"
           style={{
             left: menu.x,
             top: menu.y,
           }}
         >
-          <div className="round pointer-events-none absolute z-90 h-full w-64 overflow-hidden bg-zinc-900">
+          <div className="pointer-events-none absolute z-90 h-full w-64 overflow-hidden rounded-2xl bg-zinc-900">
             {blurhash && (
               <Blurhash hash={blurhash} width="100%" height="100%" />
             )}

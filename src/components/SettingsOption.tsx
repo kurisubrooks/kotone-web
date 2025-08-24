@@ -22,7 +22,7 @@ const SettingsOption = ({
   return (
     <div
       className={cn(
-        'round hover:bg-highlight flex items-center gap-4 px-4 py-2 transition',
+        'hover:bg-highlight flex items-center gap-4 rounded-2xl px-4 py-2 transition',
         onClick && 'hover:cursor-pointer',
       )}
       onClick={onClick}

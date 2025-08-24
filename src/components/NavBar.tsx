@@ -52,11 +52,11 @@ const NavBar = () => {
           ref={searchRef}
           type="text"
           placeholder="Search..."
-          className="bg-w text-b grow rounded-l-2xl px-4 py-1.5"
+          className="grow rounded-l-2xl bg-white px-4 py-1.5 text-black"
           onChange={(e) => setQuery(e.target.value)}
         />
         <div
-          className="bg-w text-b flex h-full items-center px-2 hover:cursor-pointer"
+          className="flex h-full items-center bg-white px-2 text-black hover:cursor-pointer"
           onClick={() => {
             if (searchRef.current) searchRef.current.value = ''
             searchRef.current?.focus()
@@ -65,7 +65,7 @@ const NavBar = () => {
           <Icon icon="close" />
         </div>
         <div
-          className="bg-w text-b flex h-full items-center rounded-r-2xl px-2 hover:cursor-pointer"
+          className="flex h-full items-center rounded-r-2xl bg-white px-2 text-black hover:cursor-pointer"
           onClick={() => {
             const query = searchRef.current!.value
             if (query) {
