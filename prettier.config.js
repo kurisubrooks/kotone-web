@@ -4,6 +4,7 @@
  */
 const config = {
   plugins: ['prettier-plugin-tailwindcss'],
+  tailwindStylesheet: './src/index.css',
   arrowParens: 'always',
   bracketSameLine: false,
   bracketSpacing: true,
