@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Outlet, useLocation } from 'react-router'
 import NavBar from '../components/NavBar'
 import FloatingPlayer from '../components/FloatingPlayer/FloatingPlayer'
@@ -8,6 +8,7 @@ import useLibrary from '../hooks/useLibrary'
 import useSettings from '../hooks/useSettings'
 import useQueue from '../hooks/useQueue'
 import useMenu from '../hooks/useMenu'
+import useTheme from '../hooks/useTheme'
 import useViews from '../api/useViews'
 import useItems from '../api/useItems'
 import { cn } from '../lib/cn'
@@ -16,12 +17,21 @@ import isDesktop from '../lib/isDesktop'
 import RPC from '../components/RPC'
 
 const Layout = () => {
-  const library = useLibrary()
+  const { setViews, setViewIDs, setAlbums, setSongs, viewIDs } = useLibrary()
   const settings = useSettings()
   const queue = useQueue()
   const { showMenu, hideMenu } = useMenu()
+  const theme = useTheme()
   const location = useLocation()
   const playerScreen = location.pathname.split('/')[1] === 'player'
+
+  // Debug re-renders
+  console.log('Layout re-render', {
+    themeId: theme.id,
+    isReady: theme.isReady,
+    hasCustomLayout: !!theme.customLayout,
+    pathname: location.pathname,
+  })
 
   const track = queue.queue.length > 0 ? queue.queue[queue.track] : undefined
   const blurhash = track
@@ -37,17 +47,16 @@ const Layout = () => {
   const views = useViews()
   useEffect(() => {
     if (views.data) {
-      library.setViews(views.data)
+      setViews(views.data)
       const ids = {}
       for (let i = 0; i < views.data.length; i++) {
         ids[views.data[i].CollectionType] = views.data[i].Id
       }
-      library.setViewIDs(ids)
+      setViewIDs(ids)
     }
-  }, [views.data])
+  }, [views.data, setViews, setViewIDs])
 
-  const musicView =
-    library.viewIDs && 'music' in library.viewIDs ? library.viewIDs.music : null
+  const musicView = viewIDs && 'music' in viewIDs ? viewIDs.music : null
 
   const albums = useItems(
     {
@@ -61,8 +70,8 @@ const Layout = () => {
   )
   useEffect(() => {
     if (albums.data) console.log('ALBUM LIBRARY SET')
-    if (albums.data) library.setAlbums(albums.data.Items)
-  }, [albums.data])
+    if (albums.data) setAlbums(albums.data.Items)
+  }, [albums.data, setAlbums])
 
   const songs = useItems(
     {
@@ -76,8 +85,8 @@ const Layout = () => {
   )
   useEffect(() => {
     if (albums.data) console.log('SONG LIBRARY SET')
-    if (songs.data) library.setSongs(songs.data.Items)
-  }, [songs.data])
+    if (songs.data) setSongs(songs.data.Items)
+  }, [albums.data, songs.data, setSongs])
 
   useEffect(() => {
     const handleClick = () => hideMenu()
@@ -90,21 +99,34 @@ const Layout = () => {
       if (process.env.NODE_ENV !== 'development')
         document.addEventListener('contextmenu', handleContext)
     }
-  }, [])
+  }, [hideMenu])
+
+  // Had to memo this so it doesn't re-render hehe
+  const CustomLayout = useMemo(() => {
+    return theme.customLayout && theme.isReady ? theme.customLayout : null
+  }, [theme.customLayout, theme.isReady])
+
+  // Use custom layout if it exists
+  if (CustomLayout) {
+    return <CustomLayout />
+  }
+
+  // TODO: maybe move this to the default theme or gut this file
+  // to not render anything outside of handling theme layout loading?
 
   return (
     <>
       <div
         className={cn(
-          'flex w-full flex-col overflow-hidden',
-          !playerScreen && 'bg-primary',
+          'font-default flex w-full flex-col overflow-hidden',
+          !playerScreen && 'bg-background',
         )}
       >
         {playerScreen && (
-          <div className="absolute -z-100 h-screen w-full overflow-hidden bg-zinc-900">
+          <div className="bg-surface absolute -z-100 h-screen w-full overflow-hidden">
             {blurhash && (
               <>
-                <div className="absolute -z-90 h-screen w-full bg-zinc-900/20" />
+                <div className="bg-overlay absolute -z-90 h-screen w-full" />
                 <Blurhash
                   hash={blurhash}
                   width="100%"

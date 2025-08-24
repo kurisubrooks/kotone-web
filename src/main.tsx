@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import './index.css'
+import ThemeProvider from './components/ThemeProvider'
 import LayoutExt from './screens/LayoutExt'
 import Splash from './screens/Splash'
 import Server from './screens/Server'
@@ -27,31 +28,33 @@ const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<LayoutExt />}>
-          <Route path="server" element={<Server />} />
-          <Route path="signin/:server?" element={<Signin />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<LayoutExt />}>
+            <Route path="server" element={<Server />} />
+            <Route path="signin/:server?" element={<Signin />} />
 
-          <Route element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="albums" element={<AlbumList />} />
-            <Route path="album/:album" element={<Album />} />
-            <Route path="playlists" element={<AlbumList />} />
-            <Route path="playlist/:album" element={<Album />} />
-            {/* <Route path="artists" element={<ArtistList />} />
-            <Route path="artist/:artist" element={<Artist />} />
-            <Route path="songs" element={<SongList />} /> */}
-            <Route path="search" element={<Search />} />
-            <Route path="player/:screen?" element={<Player />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="*" element={<NotFound />} />
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="albums" element={<AlbumList />} />
+              <Route path="album/:album" element={<Album />} />
+              <Route path="playlists" element={<AlbumList />} />
+              <Route path="playlist/:album" element={<Album />} />
+              {/* <Route path="artists" element={<ArtistList />} />
+              <Route path="artist/:artist" element={<Artist />} />
+              <Route path="songs" element={<SongList />} /> */}
+              <Route path="search" element={<Search />} />
+              <Route path="player/:screen?" element={<Player />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+
+            <Route index element={<Splash />} />
           </Route>
-
-          <Route index element={<Splash />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>,
 )

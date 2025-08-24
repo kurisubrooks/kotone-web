@@ -4,34 +4,117 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --font-sans: 'Nunito', 'M PLUS Rounded 1c', sans-serif;
+/* override default Tailwind values like colours and generated classes
+   values here also generate utility classes if prefixed correctly
+   example: --color-primary will generate .bg-primary, .text-primary, etc. */
+@theme inline {
+  /* `inline` allows you to reference other variables (like in :root)
+     instead of inlining values, so overrides like in .dark will still work */
+
+  --font-sans:
+    'Nunito', 'M PLUS Rounded 1c', 'Noto Sans JP', 'Noto Sans CJK',
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-white: var(--white);
+  --color-black: var(--black);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+
+  --color-overlay: var(--overlay);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-selection: var(--selection);
+  --color-selection-foreground: var(--selection-foreground);
+}
+
+/* Core variables go here, will be overridden by theme provider(!) */
+:root {
+  --font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  --font-size: 16px;
+  --font-weight: normal;
+  --line-height: 1.5;
+  --icons: material-round;
+  --radius: 8px;
+
+  --white: var(--color-zinc-100);
+  --black: var(--color-zinc-900);
+
+  --background: var(--color-zinc-100);
+  --foreground: var(--color-zinc-900);
+  --surface: var(--color-zinc-800);
+  --surface-foreground: var(--color-zinc-100);
+  --card: var(--color-zinc-800);
+  --card-foreground: var(--color-zinc-100);
+
+  --primary: var(--color-yellow-400);
+  --primary-foreground: var(--color-zinc-900);
+  --secondary: var(--color-orange-400);
+  --secondary-foreground: var(--color-zinc-700);
+  --muted: var(--color-zinc-600);
+  --muted-foreground: var(--color-zinc-400);
+  --accent: var(--color-red-400);
+  --accent-foreground: var(--color-zinc-100);
+
+  --overlay: rgba(0, 0, 0, 0.8);
+  --border: var(--color-zinc-300);
+  --input: var(--color-zinc-300);
+  --selection: var(--color-zinc-300);
+  --selection-foreground: var(--color-zinc-900);
+
+  /* Player theme variables */
+  --player-icon: var(--color-yellow-400);
+  --player-background: var(--color-zinc-800);
+  --player-progressBar: var(--color-orange-400);
+  --player-progressBarTrack: var(--color-zinc-700);
+  --player-floating: false;
+  --player-position: bottom;
+  --player-background-style: solid;
+}
+
+/* Dark mode variable overrides */
+.dark {
+  --white: var(--color-zinc-900);
+  --black: var(--color-zinc-100);
+}
+
+body {
+  overscroll-behavior: none;
 }
 
 .material-symbols-filled {
   font-variation-settings: 'FILL' 1;
 }
 
-@utility round {
-  @apply rounded-2xl;
-}
-@utility round-2 {
-  @apply rounded-4xl;
-}
-
-@utility bg-primary {
-  @apply bg-linear-160 from-purple-200 to-pink-200;
-  @variant dark {
-    @apply bg-linear-160 from-purple-400 to-pink-400;
+@layer utilities {
+  .bg-gradient {
+    @apply bg-linear-160 from-purple-200 to-pink-200;
+    @variant dark {
+      @apply bg-linear-160 from-purple-400 to-pink-400;
+    }
   }
 }
-@utility bg-w {
-  @apply bg-zinc-100;
-}
-@utility bg-b {
-  @apply bg-zinc-900;
-}
-
+/*
 @utility text-primary {
   @apply text-zinc-900;
   @variant dark {
@@ -50,7 +133,7 @@
 @utility text-b {
   @apply text-zinc-900;
 }
-
+*/
 @utility bg-highlight {
   @apply bg-zinc-900/40;
   @variant dark {
